@@ -1,1 +1,1 @@
-include ':quickstart'
+include ':quickstart', ':quality_issues_demo'

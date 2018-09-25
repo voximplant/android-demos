@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.voximplant.sdk.Voximplant;
 import com.voximplant.sdk.call.CallException;
+import com.voximplant.sdk.call.CallSettings;
 import com.voximplant.sdk.call.CallStats;
 import com.voximplant.sdk.call.ICall;
 import com.voximplant.sdk.call.ICallListener;
@@ -64,13 +65,15 @@ public class MainActivity extends AppCompatActivity  {
 
     private void call() {
         if (missingPermissions().size() == 0) {
-            ICall call = mClient.callTo("*", new VideoFlags(false, false), null);
+            CallSettings callSettings = new CallSettings();
+            callSettings.videoFlags = new VideoFlags(false, false);
+            ICall call = mClient.call("*",callSettings);
             if (call != null) {
                 CallListener callListener = new CallListener();
                 call.addCallListener(callListener);
                 mCallListeners.put(call, callListener);
                 try {
-                    call.start(null);
+                    call.start();
                     mCurrentCall = call;
                     runOnUiThread(() -> {
                         mCallEndButton.setVisibility(View.VISIBLE);
@@ -151,7 +154,9 @@ public class MainActivity extends AppCompatActivity  {
         mClient.setClientIncomingCallListener((call, hasIncomingVideo, headers) -> {
             if (missingPermissions().size() == 0) {
                 try {
-                    call.answer(null, new VideoFlags(false, false), null);
+                    CallSettings callSettings = new CallSettings();
+                    callSettings.videoFlags = new VideoFlags(false, false);
+                    call.answer(callSettings);
                     CallListener callListener = new CallListener();
                     call.addCallListener(callListener);
                     mCallListeners.put(call, callListener);
