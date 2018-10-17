@@ -1,1 +1,1 @@
-include ':quickstart', ':quality_issues_demo'
+include ':quickstart', ':quality_issues_demo', ':proximity_sensor'

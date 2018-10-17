@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Proximity Sensor</string>
+    <string name="voximplant">Voximplant</string>
+
+    <string name="prompt_login">USER@APP.ACCOUNT</string>
+    <string name="prompt_password">PASSWORD</string>
+    <string name="prompt_call_to">CALL TO</string>
+    <string name="action_sign_in">Log in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_audio_call">Audio Call</string>
+    <string name="action_video_call">Video Call</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_incorrect_username">This username is incorrect</string>
+    <string name="alert_login_failed">Login failed</string>
+    <string name="alert_login_failed_account_frozen">Login failed due to account is frozen. Please contact your admin</string>
+    <string name="alert_login_failed_internal_error">Login failed due to internal error. Please try again</string>
+    <string name="alert_login_failed_timeout">Login failed due to timeout. Please try again</string>
+    <string name="alert_login_failed_network_issues">Login failed due to network issues. Please try again</string>
+    <string name="alert_title_disconnected">Connection error</string>
+    <string name="alert_content_disconnected">Connection to server is lost. Please relogin</string>
+    <string name="alert_title_connection_failed">Connection failed</string>
+    <string name="alert_content_connection_failed">Connection failed, check your internet connection and try again</string>
+    <string name="alert_positive_button">OK</string>
+
+    <string name="toast_midcall_operation_failed">%1$s is failed due to %2$s</string>
+
+    <string name="hangup_call">Hangup call</string>
+
+    <string name="call_failed">Call is failed</string>
+    <string name="incoming_call_from">Incoming call from</string>
+    <string name="answer_call">Answer call</string>
+    <string name="answer_call_with_video">Answer call with video</string>
+
+    <string name="call_service_notification_text">Call is in progress</string>
+</resources>

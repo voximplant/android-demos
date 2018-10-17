@@ -1,0 +1,44 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion versions.compileSdk
+
+    defaultConfig {
+        applicationId "com.voximplant.demos.proximity_sensor"
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        targetCompatibility versions.java
+        sourceCompatibility versions.java
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "com.voximplant:voximplant-sdk:${versions.voximplant}"
+
+    implementation "com.android.support:appcompat-v7:${versions.supportLibrary}"
+    implementation "com.android.support.constraint:constraint-layout:${versions.constraintLayout}"
+    implementation "com.android.support:design:${versions.supportLibrary}"
+    implementation "com.android.support:support-vector-drawable:${versions.supportLibrary}"
+
+    testImplementation "junit:junit:${versions.junit}"
+    androidTestImplementation "com.android.support.test:runner:${versions.testRuner}"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:${versions.espressoCore}"
+}
