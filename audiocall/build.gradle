@@ -1,0 +1,54 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion versions.compileSdk
+
+
+    defaultConfig {
+        applicationId "com.voximplant.demos.audiocall"
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode 1
+        versionName "1.0.1"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled = false
+        }
+    }
+
+    compileOptions {
+        targetCompatibility versions.java
+        sourceCompatibility versions.java
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "com.voximplant:voximplant-sdk:${versions.voximplant}"
+
+    implementation "androidx.appcompat:appcompat:${versions.appcompat}"
+    implementation "androidx.constraintlayout:constraintlayout:${versions.constraintlayout}"
+    implementation "com.google.android.material:material:${versions.material}"
+    implementation "androidx.vectordrawable:vectordrawable:${versions.vectordrawable}"
+
+    implementation "com.google.firebase:firebase-messaging:${versions.firebase}"
+    implementation "androidx.core:core:${versions.core}"
+
+    testImplementation "junit:junit:${versions.junit}"
+    androidTestImplementation "androidx.test:runner:${versions.testRunner}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espressoCore}"
+}
+
+// Uncomment this line to enable push notifications
+//apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin

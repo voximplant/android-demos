@@ -1,0 +1,214 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/keypad_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBackgroundWhite"
+    tools:context=".ui.call.CallActivity">
+
+    <Button
+        android:id="@+id/keypad_0_button"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:background="@drawable/circle_button_background_selector"
+        android:onClick="onDTMFSymbolPressed"
+        android:fontFamily="@font/roboto"
+        android:text="@string/_0"
+        android:textColor="@drawable/button_text_color_selector"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/keypad_hide_button"
+        app:layout_constraintEnd_toStartOf="@+id/keypad_number_sign_button" />
+
+    <Button
+        android:id="@+id/keypad_number_sign_button"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:background="@drawable/circle_button_background_selector"
+        android:onClick="onDTMFSymbolPressed"
+        android:fontFamily="@font/roboto"
+        android:text="@string/number_sign"
+        android:textColor="@drawable/button_text_color_selector"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/keypad_0_button"
+        app:layout_constraintStart_toEndOf="@+id/keypad_0_button" />
+
+    <Button
+        android:id="@+id/keypad_7_button"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/circle_button_background_selector"
+        android:onClick="onDTMFSymbolPressed"
+        android:fontFamily="@font/roboto"
+        android:text="@string/_7"
+        android:textColor="@drawable/button_text_color_selector"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/keypad_8_button"
+        app:layout_constraintEnd_toStartOf="@+id/keypad_8_button" />
+
+    <Button
+        android:id="@+id/keypad_asterisk_button"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/circle_button_background_selector"
+        android:onClick="onDTMFSymbolPressed"
+        android:fontFamily="@font/roboto"
+        android:text="@string/asterisk"
+        android:textColor="@drawable/button_text_color_selector"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/keypad_0_button"
+        app:layout_constraintEnd_toStartOf="@+id/keypad_0_button" />
+
+    <Button
+        android:id="@+id/keypad_9_button"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:background="@drawable/circle_button_background_selector"
+        android:onClick="onDTMFSymbolPressed"
+        android:fontFamily="@font/roboto"
+        android:text="@string/_9"
+        android:textColor="@drawable/button_text_color_selector"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/keypad_8_button"
+        app:layout_constraintStart_toEndOf="@+id/keypad_8_button" />
+
+    <Button
+        android:id="@+id/keypad_5_button"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/circle_button_background_selector"
+        android:onClick="onDTMFSymbolPressed"
+        android:fontFamily="@font/roboto"
+        android:text="@string/_5"
+        android:textColor="@drawable/button_text_color_selector"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/keypad_8_button"
+        app:layout_constraintEnd_toEndOf="@+id/keypad_0_button"
+        app:layout_constraintStart_toStartOf="@+id/keypad_0_button" />
+
+    <Button
+        android:id="@+id/keypad_4_button"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/circle_button_background_selector"
+        android:onClick="onDTMFSymbolPressed"
+        android:fontFamily="@font/roboto"
+        android:text="@string/_4"
+        android:textColor="@drawable/button_text_color_selector"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/keypad_5_button"
+        app:layout_constraintEnd_toStartOf="@+id/keypad_5_button" />
+
+    <Button
+        android:id="@+id/keypad_6_button"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:background="@drawable/circle_button_background_selector"
+        android:onClick="onDTMFSymbolPressed"
+        android:fontFamily="@font/roboto"
+        android:text="@string/_6"
+        android:textColor="@drawable/button_text_color_selector"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/keypad_5_button"
+        app:layout_constraintStart_toEndOf="@+id/keypad_5_button" />
+
+    <Button
+        android:id="@+id/keypad_2_button"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/circle_button_background_selector"
+        android:onClick="onDTMFSymbolPressed"
+        android:fontFamily="@font/roboto"
+        android:text="@string/_2"
+        android:textColor="@drawable/button_text_color_selector"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/keypad_5_button"
+        app:layout_constraintEnd_toEndOf="@+id/keypad_0_button"
+        app:layout_constraintStart_toStartOf="@+id/keypad_0_button" />
+
+    <Button
+        android:id="@+id/keypad_3_button"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/circle_button_background_selector"
+        android:onClick="onDTMFSymbolPressed"
+        android:fontFamily="@font/roboto"
+        android:text="@string/_3"
+        android:textColor="@drawable/button_text_color_selector"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/keypad_5_button"
+        app:layout_constraintStart_toEndOf="@+id/keypad_2_button" />
+
+    <Button
+        android:id="@+id/keypad_1_button"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/circle_button_background_selector"
+        android:onClick="onDTMFSymbolPressed"
+        android:fontFamily="@font/roboto"
+        android:text="@string/_1"
+        android:textColor="@drawable/button_text_color_selector"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/keypad_2_button"
+        app:layout_constraintEnd_toStartOf="@+id/keypad_2_button" />
+
+    <Button
+        android:id="@+id/keypad_8_button"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/circle_button_background_selector"
+        android:onClick="onDTMFSymbolPressed"
+        android:fontFamily="@font/roboto"
+        android:text="@string/_8"
+        android:textColor="@drawable/button_text_color_selector"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/keypad_0_button"
+        app:layout_constraintEnd_toEndOf="@+id/keypad_0_button"
+        app:layout_constraintStart_toStartOf="@+id/keypad_0_button" />
+
+    <Button
+        android:id="@+id/keypad_hide_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/hide"
+        android:textAllCaps="false"
+        android:onClick="onHideKeypadPressed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/keypad_number_sign_button"
+        app:layout_constraintStart_toStartOf="@+id/keypad_number_sign_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
