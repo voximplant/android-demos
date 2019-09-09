@@ -7,9 +7,10 @@ package com.voximplant.demos.proximity_sensor.ui.incomingcall;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,7 +23,7 @@ import com.voximplant.demos.proximity_sensor.R;
 
 import java.util.ArrayList;
 
-import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
+import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 import static com.voximplant.demos.proximity_sensor.utils.Constants.CALL_ANSWERED;
 import static com.voximplant.demos.proximity_sensor.utils.Constants.CALL_ID;
 import static com.voximplant.demos.proximity_sensor.utils.Constants.DISPLAY_NAME;

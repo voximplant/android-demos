@@ -1,7 +1,7 @@
 package com.voximplant.demos.quickstart;
 
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,9 +28,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 
-import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
+import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final String USERNAME = "user@app.acc.voximplant.com";
     private static final String PASSWORD = "p@ssw0rd";
