@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Conference</string>
+    <string name="room_hint">MEETING ID</string>
+    <string name="name_hint">NAME</string>
+    <string name="action_join">JOIN</string>
+    <string name="logo">logo</string>
+    <string name="connecting">CONNECTING...</string>
+    <string name="alert_select_audio_device">Audio device</string>
+    <string name="required">required</string>
+    <string name="call_service_notification_text">Video conference is in progress</string>
+</resources>

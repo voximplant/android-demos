@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".ui.conf.ConfActivity">
+
+    <RelativeLayout
+        android:id="@+id/video_views"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/send_audio_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/send_audio_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/send_audio_button"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_image_passive"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/audio_device_button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_mic_on" />
+
+    <ImageButton
+        android:id="@+id/audio_device_button"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_image_passive"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/switch_camera_button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/send_audio_button"
+        app:srcCompat="@drawable/ic_volume_down_black_24dp" />
+
+    <ImageButton
+        android:id="@+id/switch_camera_button"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_image_passive"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/send_video_button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/audio_device_button"
+        app:srcCompat="@drawable/ic_switch_camera_black_35dp" />
+
+    <ImageButton
+        android:id="@+id/send_video_button"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_image_passive"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/exit_button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/switch_camera_button"
+        app:srcCompat="@drawable/ic_video_on" />
+
+    <ImageButton
+        android:id="@+id/exit_button"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_image_passive"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/send_video_button"
+        app:srcCompat="@drawable/ic_exit" />
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/call_controls"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent">-->
+
+
+    <!--        <ImageButton-->
+    <!--            android:id="@+id/send_audio_button"-->
+    <!--            android:layout_width="55dp"-->
+    <!--            android:layout_height="55dp"-->
+    <!--            android:background="@drawable/button_image_passive"-->
+    <!--            app:srcCompat="@drawable/ic_mic_on"-->
+    <!--            />-->
+
+    <!--        <ImageButton-->
+    <!--            android:id="@+id/audio_device_button"-->
+    <!--            android:layout_width="55dp"-->
+    <!--            android:layout_height="55dp"-->
+    <!--            android:background="@drawable/button_image_passive"-->
+    <!--            app:srcCompat="@drawable/ic_mic_on"-->
+    <!--            />-->
+
+    <!--        <ImageButton-->
+    <!--            android:id="@+id/switch_camera_button"-->
+    <!--            android:layout_width="55dp"-->
+    <!--            android:layout_height="55dp"-->
+    <!--            android:background="@drawable/button_image_passive"-->
+    <!--            app:srcCompat="@drawable/ic_switch_camera_black_35dp"-->
+    <!--            />-->
+
+    <!--        <ImageButton-->
+    <!--            android:id="@+id/send_video_button"-->
+    <!--            android:layout_width="55dp"-->
+    <!--            android:layout_height="55dp"-->
+    <!--            android:background="@drawable/button_image_passive"-->
+    <!--            app:srcCompat="@drawable/ic_video_on"-->
+    <!--            />-->
+
+    <!--        <ImageButton-->
+    <!--            android:id="@+id/exit_button"-->
+    <!--            android:layout_width="55dp"-->
+    <!--            android:layout_height="55dp"-->
+    <!--            android:background="@drawable/button_image_passive"-->
+    <!--            app:srcCompat="@drawable/ic_exit"-->
+    <!--            />-->
+
+
+    <!--    </LinearLayout>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
