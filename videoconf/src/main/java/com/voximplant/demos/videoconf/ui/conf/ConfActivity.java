@@ -69,6 +69,11 @@ public class ConfActivity extends AppCompatActivity implements ConfContract.View
     }
 
     @Override
+    public void onBackPressed() {
+
+    }
+
+    @Override
     public void createVideoView(String streamId, String displayName) {
         runOnUiThread(() ->
                 mVideoViewsHelper.addVideoView(streamId, displayName));
