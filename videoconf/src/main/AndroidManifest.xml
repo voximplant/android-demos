@@ -16,6 +16,7 @@
         <activity
             android:name=".ui.start.StartConfActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.StartConfScreenTheme"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

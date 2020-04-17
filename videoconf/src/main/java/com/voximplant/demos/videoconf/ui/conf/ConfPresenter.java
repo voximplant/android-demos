@@ -70,7 +70,10 @@ public class ConfPresenter implements ConfContract.Presenter, ICallListener, IEn
         if (view == null) {
             return;
         }
-        mAudioDeviceManager.selectAudioDevice(AudioDevice.SPEAKER);
+        List<AudioDevice> audioDevices = mAudioDeviceManager.getAudioDevices();
+        if (!audioDevices.contains(AudioDevice.BLUETOOTH) && !audioDevices.contains(AudioDevice.WIRED_HEADSET)) {
+            mAudioDeviceManager.selectAudioDevice(AudioDevice.SPEAKER);
+        }
         mConferenceCall = mClientManager.createConferenceCall(mMeetingId);
         if (mConferenceCall != null) {
             try {
@@ -264,6 +267,11 @@ public class ConfPresenter implements ConfContract.Presenter, ICallListener, IEn
 
     @Override
     public void onAudioDeviceListChanged(List<AudioDevice> list) {
-
+        if (list == null || list.isEmpty()) {
+            return;
+        }
+        if (!list.contains(AudioDevice.BLUETOOTH) && !list.contains(AudioDevice.WIRED_HEADSET)) {
+            mAudioDeviceManager.selectAudioDevice(AudioDevice.SPEAKER);
+        }
     }
 }
