@@ -179,9 +179,9 @@ public class VoxClientManager implements IClientSessionListener, IClientLoginLis
 
     private void enablePushNotifications(boolean enable) {
         if (enable) {
-            mClient.registerForPushNotifications(mFireBaseToken);
+            mClient.registerForPushNotifications(mFireBaseToken, null);
         } else {
-            mClient.unregisterFromPushNotifications(mFireBaseToken);
+            mClient.unregisterFromPushNotifications(mFireBaseToken, null);
         }
     }
     //endregion

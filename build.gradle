@@ -7,8 +7,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
-        classpath 'com.google.gms:google-services:4.3.2'
+        classpath 'com.android.tools.build:gradle:3.6.3'
+        classpath 'com.google.gms:google-services:4.3.3'
 
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -26,7 +26,7 @@ allprojects {
 ext {
     versions = [
             java            : JavaVersion.VERSION_1_8,
-            voximplant      : '2.16.1',
+            voximplant      : '2.17.1',
             appcompat       : '1.1.0',
             constraintlayout: '1.1.3',
             material        : '1.1.0',
