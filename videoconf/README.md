@@ -23,8 +23,8 @@ This application is able to:
 ## Useful links
 1. [Getting started](https://voximplant.com/docs/introduction)
 2. [Voximplant Android SDK reference](https://voximplant.com/docs/references/androidsdk)
-3. [Using Voximplant Android SDK](https://voximplant.com/docs/introduction/integration/adding_sdks/installing/android_sdk)
-4. [HowTo’s](https://voximplant.com/blog/howto)
+3. [Installing Voximplant Android SDK](https://voximplant.com/docs/introduction/integration/adding_sdks/installing/android_sdk)
+4. [HowTo’s](https://voximplant.com/docs/howtos)
 
 ## Have a question
 - contact us via `support@voximplant.com`
