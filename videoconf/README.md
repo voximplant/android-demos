@@ -21,7 +21,12 @@ This application is able to:
 3. Press ‘Join’
 
 ## Useful links
-1. [Quickstart](https://voximplant.com/docs/references/articles/quickstart)
+1. [Getting started](https://voximplant.com/docs/introduction)
 2. [Voximplant Android SDK reference](https://voximplant.com/docs/references/androidsdk)
-3. [Using Voximplant Android SDK](https://voximplant.com/docs/references/androidsdk/using-android-sdk)
+3. [Using Voximplant Android SDK](https://voximplant.com/docs/introduction/integration/adding_sdks/installing/android_sdk)
 4. [HowTo’s](https://voximplant.com/blog/howto)
+
+## Have a question
+- contact us via `support@voximplant.com`
+- create an issue
+- join our developer [community](https://discord.gg/sfCbT5u)
