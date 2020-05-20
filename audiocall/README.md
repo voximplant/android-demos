@@ -31,7 +31,7 @@ See the following file for code details:
 - [NotificationHelper](src/main/java/com/voximplant/demos/audiocall/utils/NotificationHelper.java)
 
 ## Getting started
-To get started, you'll need to [register](https://voximplant.com) a free Voximplant developer account.
+To get started, you'll need to [register](https://manage.voximplant.com/auth/sign_up) a free Voximplant developer account.
 
 You'll need the following:
 - Voximplant application
@@ -45,7 +45,7 @@ install [SDK tutorial](https://manage.voximplant.com/marketplace/sdk_tutorial) f
 ![marketplace](screenshots/market.png)
 
 ### Manual
-You can set up it manually using our [Getting started guide](https://voximplant.com/docs/introduction) and tutorials
+You can set up it manually using our [Getting started](https://voximplant.com/docs/introduction) guide and tutorials
 
 #### VoxEngine scenario example:
   ```
@@ -101,8 +101,8 @@ See the following files for code details:
 ## Useful links
 1. [Getting started](https://voximplant.com/docs/introduction)
 2. [Voximplant Android SDK reference](https://voximplant.com/docs/references/androidsdk)
-3. [Using Voximplant Android SDK](https://voximplant.com/docs/introduction/integration/adding_sdks/installing/android_sdk)
-4. [HowTo's](https://voximplant.com/blog/howto) 
+3. [Installing Voximplant Android SDK](https://voximplant.com/docs/introduction/integration/adding_sdks/installing/android_sdk)
+4. [HowTo's](https://voximplant.com/docs/howtos) 
 5. [Push Notifications Tutorial](https://voximplant.com/docs/introduction/integration/adding_sdks/push_notifications/android_sdk)
 
 ## Have a question
