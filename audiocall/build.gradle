@@ -37,13 +37,14 @@ dependencies {
 
     implementation "com.voximplant:voximplant-sdk:${versions.voximplant}"
 
+    implementation "androidx.core:core:${versions.core}"
     implementation "androidx.appcompat:appcompat:${versions.appcompat}"
     implementation "androidx.constraintlayout:constraintlayout:${versions.constraintlayout}"
     implementation "com.google.android.material:material:${versions.material}"
     implementation "androidx.vectordrawable:vectordrawable:${versions.vectordrawable}"
 
-    implementation "com.google.firebase:firebase-messaging:${versions.firebase}"
-    implementation "androidx.core:core:${versions.core}"
+    implementation platform("com.google.firebase:firebase-bom:${versions.firebase}")
+    implementation 'com.google.firebase:firebase-messaging'
 
     testImplementation "junit:junit:${versions.junit}"
     androidTestImplementation "androidx.test:runner:${versions.testRunner}"

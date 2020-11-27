@@ -39,18 +39,18 @@ public class ConfPresenter implements ConfContract.Presenter, ICallListener, IEn
 
     private final WeakReference<ConfContract.View> mView;
     private final String mMeetingId;
-    private VoxClientManager mClientManager = Shared.getInstance().getClientManager();
+    private final VoxClientManager mClientManager = Shared.getInstance().getClientManager();
     private ICall mConferenceCall;
     private boolean mIsAudioMuted;
     private boolean mIsVideoSent;
 
-    private HashMap<IVideoStream, String> mEndpointVideoStreams = new HashMap<>();
+    private final HashMap<IVideoStream, String> mEndpointVideoStreams = new HashMap<>();
 
-    private IAudioDeviceManager mAudioDeviceManager;
+    private final IAudioDeviceManager mAudioDeviceManager;
 
-    private ICameraManager mCameraManager;
+    private final ICameraManager mCameraManager;
     private int mCameraType;
-    private VideoQuality mVideoQuality = VideoQuality.VIDEO_QUALITY_LOW;
+    private final VideoQuality mVideoQuality = VideoQuality.VIDEO_QUALITY_LOW;
 
     ConfPresenter(ConfContract.View view, String meetingId) {
         mView = new WeakReference<>(view);
@@ -191,10 +191,9 @@ public class ConfPresenter implements ConfContract.Presenter, ICallListener, IEn
     @Override
     public void onLocalVideoStreamAdded(ICall call, IVideoStream videoStream) {
         Log.i(APP_TAG, "onLocalVideoStreamAdded: " + call.getCallId());
-
-        mEndpointVideoStreams.put(videoStream, SELF_ENDPOINT_ID);
         ConfContract.View view = mView.get();
         if (view != null) {
+            mEndpointVideoStreams.put(videoStream, SELF_ENDPOINT_ID);
             view.createVideoView(SELF_ENDPOINT_ID, mClientManager.getDisplayName() + "(you)");
             view.requestVideoViewForEndpoint(SELF_ENDPOINT_ID);
         }
@@ -203,6 +202,11 @@ public class ConfPresenter implements ConfContract.Presenter, ICallListener, IEn
     @Override
     public void onLocalVideoStreamRemoved(ICall call, IVideoStream videoStream) {
         Log.i(APP_TAG, "onLocalVideoStreamRemoved: " + call.getCallId());
+        mEndpointVideoStreams.remove(videoStream);
+        ConfContract.View view = mView.get();
+        if (view != null) {
+            view.removeVideoView(SELF_ENDPOINT_ID);
+        }
     }
 
 
@@ -213,10 +217,6 @@ public class ConfPresenter implements ConfContract.Presenter, ICallListener, IEn
         if (endpoint != null && !endpoint.getEndpointId().equals(call.getCallId())) {
             endpoint.setEndpointListener(this);
             Log.i(APP_TAG, "onRemoteVideoStreamAdded: "+ endpoint.getEndpointId());
-            ConfContract.View view = mView.get();
-            if (view != null) {
-                view.createVideoView(endpoint.getEndpointId(), endpoint.getUserDisplayName());
-            }
         }
     }
 
@@ -225,13 +225,18 @@ public class ConfPresenter implements ConfContract.Presenter, ICallListener, IEn
         mEndpointVideoStreams.put(videoStream, endpoint.getEndpointId());
         ConfContract.View view = mView.get();
         if (view != null) {
+            view.createVideoView(endpoint.getEndpointId(), endpoint.getUserDisplayName());
             view.requestVideoViewForEndpoint(endpoint.getEndpointId());
         }
     }
 
     @Override
     public void onRemoteVideoStreamRemoved(IEndpoint endpoint, IVideoStream videoStream) {
-
+        mEndpointVideoStreams.remove(videoStream);
+        ConfContract.View view = mView.get();
+        if (view != null) {
+            view.removeVideoView(endpoint.getEndpointId());
+        }
     }
 
     @Override

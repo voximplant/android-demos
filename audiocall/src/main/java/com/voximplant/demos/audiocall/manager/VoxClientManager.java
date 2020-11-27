@@ -6,7 +6,7 @@ package com.voximplant.demos.audiocall.manager;
 
 import android.util.Log;
 
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.voximplant.demos.audiocall.utils.MD5;
 import com.voximplant.demos.audiocall.utils.SharedPreferencesHelper;
 import com.voximplant.sdk.client.AuthParams;
@@ -41,11 +41,11 @@ public class VoxClientManager implements IClientSessionListener, IClientLoginLis
     public VoxClientManager(IClient client) {
         setClient(client);
         // uncomment this line to enable push notifications
-//        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
+//        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
 //            if (!task.isSuccessful() || task.getResult() == null) {
 //                return;
 //            }
-//            mFireBaseToken = task.getResult().getToken();
+//            mFireBaseToken = task.getResult();
 //        });
     }
 
