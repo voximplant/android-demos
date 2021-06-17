@@ -1,2 +1,2 @@
-include ':quickstart', ':quality_issues_demo', ':proximity_sensor', 'audiocall'
+include ':quality_issues_demo', ':proximity_sensor', 'audiocall'
 include ':videoconf'
