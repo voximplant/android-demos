@@ -24,6 +24,8 @@ interface CallContract {
         void updateCameraButton(boolean isFront);
         void updateAudioDeviceButton(AudioDevice audioDevice);
 
+        void showVideoView(SurfaceViewRenderer renderer);
+
         void createLocalVideoView();
         void removeLocalVideoView();
 

@@ -16,20 +16,26 @@ import com.voximplant.sdk.call.QualityIssue;
 import com.voximplant.sdk.call.QualityIssueLevel;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 class HashMapArrayAdapter extends BaseAdapter {
-    private ArrayList mData = new ArrayList();
-    private Context mContext;
+    private final List<Map.Entry<QualityIssue, QualityIssueLevel>> mData = new ArrayList<>();
+    private final Context mContext;
 
     HashMapArrayAdapter(Context context, Map<QualityIssue, QualityIssueLevel> data) {
         mContext = context;
-        mData.addAll(data.entrySet());
+        updateData(data);
     }
 
     void updateData(Map<QualityIssue, QualityIssueLevel> data) {
         mData.clear();
-        mData.addAll(data.entrySet());
+        for (Map.Entry<QualityIssue, QualityIssueLevel> entry : data.entrySet()) {
+            if (entry.getKey().equals(QualityIssue.LOW_BANDWIDTH)) {
+                continue;
+            }
+            mData.add(entry);
+        }
         notifyDataSetChanged();
     }
 
@@ -40,7 +46,7 @@ class HashMapArrayAdapter extends BaseAdapter {
 
     @Override
     public Map.Entry<QualityIssue, QualityIssueLevel> getItem(int position) {
-        return (Map.Entry) mData.get(position);
+        return mData.get(position);
     }
 
     @Override
@@ -65,9 +71,6 @@ class HashMapArrayAdapter extends BaseAdapter {
             case PACKET_LOSS:
                 issue = mContext.getResources().getString(R.string.quality_issue_packet_loss);
                 break;
-            case LOW_BANDWIDTH:
-                issue = mContext.getResources().getString(R.string.quality_issue_low_bandwidth);
-                break;
             case LOCAL_VIDEO_DEGRADATION:
                 issue = mContext.getResources().getString(R.string.quality_issue_local_video_degradation);
                 break;
@@ -83,9 +86,15 @@ class HashMapArrayAdapter extends BaseAdapter {
             case ICE_DISCONNECTED:
                 issue = mContext.getResources().getString(R.string.quality_issue_ice_disconnected);
                 break;
-                default:
-                    issue = mContext.getResources().getString(R.string.quality_issue_unknown);
-                    break;
+            case NO_AUDIO_RECEIVE:
+                issue = mContext.getResources().getString(R.string.quality_issue_no_audio_receive);
+                break;
+            case NO_VIDEO_RECEIVE:
+                issue = mContext.getResources().getString(R.string.quality_issue_no_video_receive);
+                break;
+            default:
+                issue = mContext.getResources().getString(R.string.quality_issue_unknown);
+                break;
         }
 
         String level = mContext.getResources().getString(R.string.quality_issue_level_none);
@@ -109,9 +118,9 @@ class HashMapArrayAdapter extends BaseAdapter {
                 break;
         }
 
-        ((TextView) result.findViewById(R.id.text1)).setText(issue);
-        ((TextView) result.findViewById(R.id.text2)).setText(level);
-        ((TextView) result.findViewById(R.id.text2)).setTextColor(color);
+        ((TextView) result.findViewById(R.id.textQualityIssue)).setText(issue);
+        ((TextView) result.findViewById(R.id.textQualityLevel)).setText(level);
+        ((TextView) result.findViewById(R.id.textQualityLevel)).setTextColor(color);
 
         return result;
     }

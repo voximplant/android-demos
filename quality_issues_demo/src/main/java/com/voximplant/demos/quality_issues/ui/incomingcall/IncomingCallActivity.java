@@ -5,12 +5,14 @@
 package com.voximplant.demos.quality_issues.ui.incomingcall;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -35,6 +37,7 @@ public class IncomingCallActivity extends AppCompatActivity implements IncomingC
     private boolean mIsAudioPermissionsGranted;
     private boolean mIsVideoPermissionsGranted;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,11 +108,11 @@ public class IncomingCallActivity extends AppCompatActivity implements IncomingC
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 button.setColorFilter(getResources().getColor(R.color.colorWhite));
-                button.setBackground(isRed ? getResources().getDrawable(R.drawable.button_image_red_active) : getResources().getDrawable(R.drawable.button_image_active));
+                button.setBackgroundResource(isRed ? R.drawable.button_image_red_active : R.drawable.button_image_active);
                 break;
             case MotionEvent.ACTION_UP:
                 button.setColorFilter(isRed ? getResources().getColor(R.color.colorRed) : getResources().getColor(R.color.colorAccent));
-                button.setBackground(isRed ? getResources().getDrawable(R.drawable.button_image_red_passive) : getResources().getDrawable(R.drawable.button_image_passive));
+                button.setBackgroundResource(isRed ? R.drawable.button_image_red_passive : R.drawable.button_image_passive);
                 break;
         }
     }

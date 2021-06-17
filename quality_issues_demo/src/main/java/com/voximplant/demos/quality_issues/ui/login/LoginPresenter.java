@@ -19,7 +19,7 @@ public class LoginPresenter implements LoginContract.Presenter, IClientManagerLi
     private static final String POSTFIX = ".voximplant.com";
 
     private final WeakReference<LoginContract.View> mView;
-    private VoxClientManager mClientManager = Shared.getInstance().getClientManager();
+    private final VoxClientManager mClientManager = Shared.getInstance().getClientManager();
 
     LoginPresenter(LoginContract.View loginView) {
         mView = new WeakReference<>(loginView);

@@ -6,7 +6,6 @@ package com.voximplant.demos.proximity_sensor.manager;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
 
 import com.voximplant.demos.proximity_sensor.ui.call.CallService;
@@ -17,7 +16,7 @@ import com.voximplant.sdk.call.CallStats;
 import com.voximplant.sdk.call.ICall;
 import com.voximplant.sdk.call.ICallListener;
 import com.voximplant.sdk.call.IEndpoint;
-import com.voximplant.sdk.call.IVideoStream;
+import com.voximplant.sdk.call.ILocalVideoStream;
 import com.voximplant.sdk.call.RejectMode;
 import com.voximplant.sdk.call.VideoFlags;
 import com.voximplant.sdk.client.IClient;
@@ -173,14 +172,14 @@ public class VoxCallManager implements IClientIncomingCallListener, ICallListene
     }
 
     @Override
-    public void onLocalVideoStreamAdded(ICall call, IVideoStream videoStream) {
+    public void onLocalVideoStreamAdded(ICall call, ILocalVideoStream videoStream) {
         for (ICallEventsListener listener : mCallEventsListeners) {
             listener.onLocalVideoStreamAdded(videoStream);
         }
     }
 
     @Override
-    public void onLocalVideoStreamRemoved(ICall call, IVideoStream videoStream) {
+    public void onLocalVideoStreamRemoved(ICall call, ILocalVideoStream videoStream) {
         for (ICallEventsListener listener : mCallEventsListeners) {
             listener.onLocalVideoStreamRemoved(videoStream);
         }

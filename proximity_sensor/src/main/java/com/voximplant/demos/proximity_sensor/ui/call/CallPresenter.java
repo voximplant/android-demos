@@ -15,6 +15,7 @@ import com.voximplant.sdk.call.CallSettings;
 import com.voximplant.sdk.call.ICall;
 import com.voximplant.sdk.call.IEndpoint;
 import com.voximplant.sdk.call.IEndpointListener;
+import com.voximplant.sdk.call.IRemoteVideoStream;
 import com.voximplant.sdk.call.IVideoStream;
 import com.voximplant.sdk.call.RenderScaleType;
 import com.voximplant.sdk.call.VideoFlags;
@@ -236,7 +237,7 @@ public class CallPresenter implements CallContract.Presenter, ICallEventsListene
 
     //region Endpoint events
     @Override
-    public synchronized void onRemoteVideoStreamAdded(IEndpoint endpoint, IVideoStream videoStream) {
+    public synchronized void onRemoteVideoStreamAdded(IEndpoint endpoint, IRemoteVideoStream videoStream) {
         if (endpoint != null && videoStream != null) {
             Log.i(APP_TAG, "onRemoteVideoStreamAdded: "+ endpoint.getEndpointId() + ", stream: " + videoStream.getVideoStreamId());
             mEndpointVideoStreams.put(videoStream, endpoint);
@@ -248,7 +249,7 @@ public class CallPresenter implements CallContract.Presenter, ICallEventsListene
     }
 
     @Override
-    public void onRemoteVideoStreamRemoved(IEndpoint endpoint, IVideoStream videoStream) {
+    public void onRemoteVideoStreamRemoved(IEndpoint endpoint, IRemoteVideoStream videoStream) {
         if (endpoint != null && videoStream != null) {
             Log.i(APP_TAG, "onRemoteVideoStreamRemoved: " + endpoint.getEndpointId() + ", stream: " + videoStream.getVideoStreamId());
             CallContract.View view = mView.get();

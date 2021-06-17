@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.voximplant.sdk.call.CallStats;
 import com.voximplant.sdk.call.IEndpoint;
-import com.voximplant.sdk.call.IVideoStream;
+import com.voximplant.sdk.call.ILocalVideoStream;
 
 import java.util.Map;
 
@@ -43,11 +43,11 @@ public interface ICallEventsListener {
         Log.i(APP_TAG, "onMessageReceived");
     }
 
-    default void onLocalVideoStreamAdded(IVideoStream videoStream) {
+    default void onLocalVideoStreamAdded(ILocalVideoStream videoStream) {
         Log.i(APP_TAG, "onLocalVideoStreamAdded");
     }
 
-    default void onLocalVideoStreamRemoved(IVideoStream videoStream) {
+    default void onLocalVideoStreamRemoved(ILocalVideoStream videoStream) {
         Log.i(APP_TAG, "onLocalVideoStreamRemoved");
     }
 

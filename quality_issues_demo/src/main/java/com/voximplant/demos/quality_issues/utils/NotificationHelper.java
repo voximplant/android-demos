@@ -12,18 +12,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+
 import androidx.core.app.NotificationCompat;
 
 import com.voximplant.demos.quality_issues.R;
-import com.voximplant.demos.quality_issues.ui.calls.MakeCallActivity;
+import com.voximplant.demos.quality_issues.ui.call.CallActivity;
+
+import static com.voximplant.demos.quality_issues.utils.Constants.APP_TAG;
 
 public class NotificationHelper {
     private static NotificationHelper instance = null;
-	private static NotificationManager mNotificationManager;
-	private static int notificationId = 0;
 
     private NotificationHelper(Context context) {
-        mNotificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(Constants.NOTIFICATION_CHANNEL_ID,
                     "Channel",
@@ -50,16 +51,17 @@ public class NotificationHelper {
         return instance;
     }
 
+    public Notification buildForegroundServiceNotification(Context context, String text) {
 
-    public Notification buildCallNotification(String text, Context context) {
-        Intent notificationIntent = new Intent(context, MakeCallActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+        Intent intent = new Intent(context, CallActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
         return new NotificationCompat.Builder(context, Constants.NOTIFICATION_CHANNEL_ID)
-                .setContentTitle("Voximplant")
+                .setSmallIcon(R.drawable.ic_vox_notification)
+                .setContentTitle(APP_TAG)
                 .setContentText(text)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.ic_vox_notification)
                 .build();
     }
 }

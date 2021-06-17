@@ -17,11 +17,10 @@ public class SharedPreferencesHelper {
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public static SharedPreferencesHelper init(Context context) {
+    public static void init(Context context) {
         if (instance == null) {
             instance = new SharedPreferencesHelper(context);
         }
-        return instance;
     }
 
     public static SharedPreferencesHelper get() {
@@ -40,6 +39,12 @@ public class SharedPreferencesHelper {
     public void saveToPrefs(String key, String value) {
         final SharedPreferences.Editor editor = prefs.edit();
         editor.putString(key, value);
+        editor.apply();
+    }
+
+    public void saveToPrefs(String key, boolean value) {
+        final SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(key, value);
         editor.apply();
     }
 

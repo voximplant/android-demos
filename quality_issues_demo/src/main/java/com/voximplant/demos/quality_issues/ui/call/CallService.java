@@ -4,7 +4,6 @@
 
 package com.voximplant.demos.quality_issues.ui.call;
 
-import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -25,13 +24,7 @@ public class CallService extends Service {
         String action = intent.getAction();
         if (action != null) {
             if (action.equals(Constants.ACTION_FOREGROUND_SERVICE_START)) {
-                int numberOfCalls = 0;
-                if (intent.getExtras() != null) {
-                    numberOfCalls = intent.getExtras().getInt(Constants.SERVICE_NOTIFICATION_DETAILS);
-                }
-                Notification notification = NotificationHelper.get()
-                        .buildCallNotification(numberOfCalls + " " + getString(R.string.call_service_notification_text), getApplicationContext());
-                startForeground(1, notification);
+                startForeground(10, NotificationHelper.get().buildForegroundServiceNotification(getApplicationContext(), getString(R.string.call_service_notification_text)));
             } else if (action.equals(Constants.ACTION_FOREGROUND_SERVICE_STOP)) {
                 stopSelf();
             }

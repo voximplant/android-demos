@@ -44,8 +44,9 @@
     <string name="quality_issue_local_video_degradation">Local video degradation</string>
     <string name="quality_issue_ice_disconnected">Ice disconnected</string>
     <string name="quality_issue_packet_loss">Packet loss</string>
-    <string name="quality_issue_low_bandwidth">Low bandwidth</string>
     <string name="quality_issue_no_audio_signal">No audio signal</string>
+    <string name="quality_issue_no_audio_receive">No audio receive</string>
+    <string name="quality_issue_no_video_receive">No video receive</string>
     <string name="quality_issue_high_media_latency">High latency</string>
     <string name="quality_issue_unknown">Unknown</string>
 
@@ -54,5 +55,7 @@
     <string name="quality_issue_level_major">Major</string>
     <string name="quality_issue_level_critical">Critical</string>
 
-    <string name="call_service_notification_text">call(s) in progress</string>
+    <string name="call_service_notification_text">Call in progress</string>
+    <string name="endpoint_name">endpoint_name</string>
+    <string name="conference">Conference</string>
 </resources>

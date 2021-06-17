@@ -6,6 +6,8 @@ package com.voximplant.demos.quality_issues.ui.call;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.voximplant.sdk.Voximplant;
 import com.voximplant.sdk.call.CallException;
 import com.voximplant.sdk.call.CallSettings;
@@ -13,7 +15,10 @@ import com.voximplant.sdk.call.ICall;
 import com.voximplant.sdk.call.ICallCompletionHandler;
 import com.voximplant.sdk.call.IEndpoint;
 import com.voximplant.sdk.call.IEndpointListener;
+import com.voximplant.sdk.call.ILocalVideoStream;
 import com.voximplant.sdk.call.IQualityIssueListener;
+import com.voximplant.sdk.call.IRemoteAudioStream;
+import com.voximplant.sdk.call.IRemoteVideoStream;
 import com.voximplant.sdk.call.IVideoStream;
 import com.voximplant.sdk.call.QualityIssue;
 import com.voximplant.sdk.call.QualityIssueLevel;
@@ -30,6 +35,7 @@ import com.voximplant.demos.quality_issues.Shared;
 import com.voximplant.demos.quality_issues.manager.ICallEventsListener;
 import com.voximplant.demos.quality_issues.manager.VoxCallManager;
 
+import org.webrtc.RendererCommon;
 import org.webrtc.SurfaceViewRenderer;
 
 import java.lang.ref.WeakReference;
@@ -43,22 +49,23 @@ import static com.voximplant.demos.quality_issues.utils.Constants.APP_TAG;
 public class CallPresenter implements CallContract.Presenter, ICallEventsListener,
         ICameraEventsListener, IAudioDeviceEventsListener, IEndpointListener, IQualityIssueListener {
     private final WeakReference<CallContract.View> mView;
-    private WeakReference<ICall> mCall;
-    private VoxCallManager mCallManager = Shared.getInstance().getCallManager();
-    private ICameraManager mCameraManager;
-    private IAudioDeviceManager mAudioDeviceManager;
+    private final WeakReference<ICall> mCall;
+    private final VoxCallManager mCallManager = Shared.getInstance().getCallManager();
+    private final ICameraManager mCameraManager;
+    private final IAudioDeviceManager mAudioDeviceManager;
 
-    private boolean mIsIncoming;
+    private final boolean mIsIncoming;
     private boolean mIsVideoSent;
     private boolean mIsVideoReceived;
     private boolean mIsAudioMuted;
     private boolean mIsCallHeld;
 
     private int mCameraType;
-    private VideoQuality mVideoQuality = VideoQuality.VIDEO_QUALITY_MEDIUM;
+    private final VideoQuality mVideoQuality = VideoQuality.VIDEO_QUALITY_MEDIUM;
 
-    private IVideoStream mLocalVideoStream;
-    private HashMap<IVideoStream, IEndpoint> mEndpointVideoStreams = new HashMap<>();
+    private ILocalVideoStream mLocalVideoStream;
+    private final HashMap<IRemoteVideoStream, String> mEndpointVideoActiveStreams = new HashMap<>();
+    private final HashMap<IRemoteVideoStream, String> mEndpointVideoReservedStreams = new HashMap<>();
 
     CallPresenter(CallContract.View view, String callId, boolean isIncoming, boolean withVideo) {
         mView = new WeakReference<>(view);
@@ -68,7 +75,7 @@ public class CallPresenter implements CallContract.Presenter, ICallEventsListene
         mIsVideoReceived = withVideo;
         mCameraType = 1;
 
-        mCameraManager = Voximplant.getCameraManager(((CallActivity)mView.get()));
+        mCameraManager = Voximplant.getCameraManager(((CallActivity) mView.get()));
         mCameraManager.setCamera(mCameraType, mVideoQuality);
         mAudioDeviceManager = Voximplant.getAudioDeviceManager();
     }
@@ -246,7 +253,7 @@ public class CallPresenter implements CallContract.Presenter, ICallEventsListene
     @Override
     public void localVideoViewCreated(SurfaceViewRenderer renderer) {
         if (mLocalVideoStream != null) {
-            mLocalVideoStream.addVideoRenderer(renderer, RenderScaleType.SCALE_FIT);
+            addRenderer(mLocalVideoStream, renderer);
         }
     }
 
@@ -260,24 +267,36 @@ public class CallPresenter implements CallContract.Presenter, ICallEventsListene
 
     @Override
     public synchronized void remoteVideoViewCreated(String streamId, SurfaceViewRenderer renderer) {
-        for (Map.Entry<IVideoStream, IEndpoint> entry : mEndpointVideoStreams.entrySet()) {
+        for (Map.Entry<IRemoteVideoStream, String> entry : mEndpointVideoActiveStreams.entrySet()) {
             if (entry.getKey().getVideoStreamId().equals(streamId)) {
-                entry.getKey().addVideoRenderer(renderer, RenderScaleType.SCALE_FIT);
+                addRenderer(entry.getKey(), renderer);
             }
         }
     }
 
+    private void addRenderer(IVideoStream videoStream, SurfaceViewRenderer renderer) {
+        videoStream.addVideoRenderer(renderer, RenderScaleType.SCALE_FIT, new RendererCommon.RendererEvents() {
+            @Override
+            public void onFirstFrameRendered() {
+                CallContract.View view = mView.get();
+                if (view != null) {
+                    view.showVideoView(renderer);
+                }
+            }
+        });
+    }
+
     @Override
     public synchronized void remoteVideoViewRemoved(String streamId, SurfaceViewRenderer renderer) {
-        IVideoStream videoStream = null;
-        for (Map.Entry<IVideoStream, IEndpoint> entry : mEndpointVideoStreams.entrySet()) {
+        IRemoteVideoStream videoStream = null;
+        for (Map.Entry<IRemoteVideoStream, String> entry : mEndpointVideoActiveStreams.entrySet()) {
             if (entry.getKey().getVideoStreamId().equals(streamId)) {
                 entry.getKey().removeVideoRenderer(renderer);
                 videoStream = entry.getKey();
             }
         }
         if (videoStream != null) {
-            mEndpointVideoStreams.remove(videoStream);
+            mEndpointVideoActiveStreams.remove(videoStream);
         }
     }
 
@@ -375,7 +394,7 @@ public class CallPresenter implements CallContract.Presenter, ICallEventsListene
     }
 
     @Override
-    public void onLocalVideoStreamAdded(IVideoStream videoStream) {
+    public void onLocalVideoStreamAdded(ILocalVideoStream videoStream) {
         ICall call = mCall.get();
         if (call != null) {
             Log.i(APP_TAG, "onLocalVideoStreamAdded: " + call.getCallId());
@@ -388,7 +407,7 @@ public class CallPresenter implements CallContract.Presenter, ICallEventsListene
     }
 
     @Override
-    public void onLocalVideoStreamRemoved(IVideoStream videoStream) {
+    public void onLocalVideoStreamRemoved(ILocalVideoStream videoStream) {
         ICall call = mCall.get();
         if (call != null) {
             Log.i(APP_TAG, "onLocalVideoStreamRemoved: " + call.getCallId());
@@ -399,14 +418,6 @@ public class CallPresenter implements CallContract.Presenter, ICallEventsListene
         }
     }
 
-    @Override
-    public void onEndpointAdded(IEndpoint endpoint) {
-        ICall call = mCall.get();
-        if (call != null) {
-            Log.i(APP_TAG, "onEndpointAdded: " + call.getCallId() + " " + endpoint.getEndpointId());
-            endpoint.setEndpointListener(this);
-        }
-    }
     //endregion
 
     //region Audio Device events
@@ -427,25 +438,56 @@ public class CallPresenter implements CallContract.Presenter, ICallEventsListene
 
     //region Endpoint events
     @Override
-    public synchronized void onRemoteVideoStreamAdded(IEndpoint endpoint, IVideoStream videoStream) {
+    public synchronized void onRemoteVideoStreamAdded(IEndpoint endpoint, IRemoteVideoStream videoStream) {
         if (endpoint != null && videoStream != null) {
-            Log.i(APP_TAG, "onRemoteVideoStreamAdded: "+ endpoint.getEndpointId() + ", stream: " + videoStream.getVideoStreamId());
-            mEndpointVideoStreams.put(videoStream, endpoint);
-            CallContract.View view = mView.get();
-            if (view != null) {
-                view.createRemoteVideoView(videoStream.getVideoStreamId(), endpoint.getUserDisplayName());
+            ICall call = mCall.get();
+            if (call != null && call.getCallId().equals(endpoint.getEndpointId()) && mCallManager.isConf()) {
+                return;
+            }
+            Log.i(APP_TAG, "onRemoteVideoStreamAdded: " + endpoint.getEndpointId() + ", stream: " + videoStream.getVideoStreamId());
+            addVideoToLayout(endpoint.getUserDisplayName(), videoStream);
+        }
+    }
+
+    @Override
+    public void onRemoteVideoStreamRemoved(IEndpoint endpoint, IRemoteVideoStream videoStream) {
+        if (endpoint != null && videoStream != null) {
+            Log.i(APP_TAG, "onRemoteVideoStreamRemoved: " + endpoint.getEndpointId() + ", stream: " + videoStream.getVideoStreamId());
+            removeVideoFromLayout(videoStream);
+        }
+    }
+
+    private void addVideoToLayout(String endpoint, IRemoteVideoStream videoStream) {
+        CallContract.View view = mView.get();
+        if (view != null) {
+            if (mEndpointVideoActiveStreams.size() < 3) { // Limit to render only 3 remote streams
+                mEndpointVideoActiveStreams.put(videoStream, endpoint); // Add stream to active
+                view.createRemoteVideoView(videoStream.getVideoStreamId(), endpoint); // Add video view to surface
+            } else {
+                mEndpointVideoReservedStreams.put(videoStream, endpoint); // Add stream to reserve
+            }
+        }
+    }
+
+    private void removeVideoFromLayout(IRemoteVideoStream videoStream) {
+        CallContract.View view = mView.get();
+        if (view != null) {
+            mEndpointVideoActiveStreams.remove(videoStream); // Remove stream from active
+            view.removeRemoteVideoView(videoStream.getVideoStreamId()); // Remove video view from surface
+            if (!mEndpointVideoReservedStreams.isEmpty()) {
+                List<Map.Entry<IRemoteVideoStream, String>> indexedList = new ArrayList<>(mEndpointVideoReservedStreams.entrySet());
+                addVideoToLayout(indexedList.get(0).getValue(), indexedList.get(0).getKey()); // Add first reserve stream to surface
+                mEndpointVideoReservedStreams.remove(indexedList.get(0).getKey()); // Remove stream from reserve
             }
         }
     }
 
     @Override
-    public void onRemoteVideoStreamRemoved(IEndpoint endpoint, IVideoStream videoStream) {
-        if (endpoint != null && videoStream != null) {
-            Log.i(APP_TAG, "onRemoteVideoStreamRemoved: " + endpoint.getEndpointId() + ", stream: " + videoStream.getVideoStreamId());
-            CallContract.View view = mView.get();
-            if (view != null) {
-                view.removeRemoteVideoView(videoStream.getVideoStreamId());
-            }
+    public void onEndpointAdded(IEndpoint endpoint) {
+        ICall call = mCall.get();
+        if (call != null) {
+            Log.i(APP_TAG, "onEndpointAdded: " + call.getCallId() + " " + endpoint.getEndpointId());
+            endpoint.setEndpointListener(this);
         }
     }
 
@@ -458,14 +500,11 @@ public class CallPresenter implements CallContract.Presenter, ICallEventsListene
         }
     }
 
-    @Override
-    public void onEndpointInfoUpdated(IEndpoint endpoint) { }
-
     //endregion
 
     //region Quality issues
     @Override
-    public void onPacketLoss(ICall call, QualityIssueLevel level, double packetLoss) {
+    public void onPacketLoss(@NonNull ICall call, @NonNull QualityIssueLevel level, double packetLoss) {
         CallContract.View view = mView.get();
         if (view != null) {
             view.qualityIssueDetected(level, "Packet loss: " + packetLoss);
@@ -473,15 +512,15 @@ public class CallPresenter implements CallContract.Presenter, ICallEventsListene
     }
 
     @Override
-    public void onCodecMismatch(ICall call, QualityIssueLevel level, String sendCodec) {
+    public void onCodecMismatch(@NonNull ICall call, @NonNull QualityIssueLevel level, String sendCodec) {
         CallContract.View view = mView.get();
         if (view != null) {
-            view.qualityIssueDetected(level,"Codec mismatch: " + sendCodec);
+            view.qualityIssueDetected(level, "Codec mismatch: " + sendCodec);
         }
     }
 
     @Override
-    public void onLocalVideoDegradation(ICall call, QualityIssueLevel level, int targetWidth, int targetHeight, int actualWidth, int actualHeight) {
+    public void onLocalVideoDegradation(@NonNull ICall call, @NonNull QualityIssueLevel level, int targetWidth, int targetHeight, int actualWidth, int actualHeight) {
         CallContract.View view = mView.get();
         if (view != null) {
             view.qualityIssueDetected(level, "Local video degradation: target: " + targetWidth + "x" + targetHeight +
@@ -490,15 +529,15 @@ public class CallPresenter implements CallContract.Presenter, ICallEventsListene
     }
 
     @Override
-    public void onIceDisconnected(ICall call, QualityIssueLevel level) {
+    public void onIceDisconnected(@NonNull ICall call, @NonNull QualityIssueLevel level) {
         CallContract.View view = mView.get();
         if (view != null) {
-            view.qualityIssueDetected(level,"Ice disconnected");
+            view.qualityIssueDetected(level, "Ice disconnected");
         }
     }
 
     @Override
-    public void onHighMediaLatency(ICall call, QualityIssueLevel level, double rtt) {
+    public void onHighMediaLatency(@NonNull ICall call, @NonNull QualityIssueLevel level, double rtt) {
         CallContract.View view = mView.get();
         if (view != null) {
             view.qualityIssueDetected(level, "High media latency: " + rtt);
@@ -506,20 +545,29 @@ public class CallPresenter implements CallContract.Presenter, ICallEventsListene
     }
 
     @Override
-    public void onLowBandwidth(ICall call, QualityIssueLevel level, double targetBitrate, double actualBitrate) {
-        CallContract.View view = mView.get();
-        if (view != null) {
-            view.qualityIssueDetected(level, "Low bandwidth: " + actualBitrate + ", target: " + targetBitrate);
-        }
-    }
-
-    @Override
-    public void onNoAudioSignal(ICall call, QualityIssueLevel level) {
+    public void onNoAudioSignal(@NonNull ICall call, @NonNull QualityIssueLevel level) {
         CallContract.View view = mView.get();
         if (view != null) {
             view.qualityIssueDetected(level, "No audio signal");
         }
     }
+
+    @Override
+    public void onNoAudioReceive(@NonNull ICall call, @NonNull QualityIssueLevel level, @NonNull IRemoteAudioStream audioStream, @NonNull IEndpoint endpoint) {
+        CallContract.View view = mView.get();
+        if (view != null) {
+            view.qualityIssueDetected(level, "No audio receive " + endpoint.getUserDisplayName());
+        }
+    }
+
+    @Override
+    public void onNoVideoReceive(@NonNull ICall call, @NonNull QualityIssueLevel level, @NonNull IRemoteVideoStream videoStream, @NonNull IEndpoint endpoint) {
+        CallContract.View view = mView.get();
+        if (view != null) {
+            view.qualityIssueDetected(level, "No video receive " + endpoint.getUserDisplayName());
+        }
+    }
+
     //endregion
 
 }

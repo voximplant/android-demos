@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.call.CallActivity"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite"
+    tools:context=".ui.call.CallActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -14,76 +14,48 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.25" />
 
-    <org.webrtc.SurfaceViewRenderer
-        android:id="@+id/local_video_view"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <org.webrtc.SurfaceViewRenderer
-        android:id="@+id/remote_video_view"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageButton
         android:id="@+id/hangup_button"
         android:layout_width="55dp"
         android:layout_height="55dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
         android:background="@drawable/button_image_red_passive"
         android:contentDescription="@string/hangup_call"
-        android:tint="@color/colorRed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/call_controls_button"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:srcCompat="@drawable/ic_call_end_black_40dp" />
+        app:srcCompat="@drawable/ic_call_end_black_40dp"
+        app:tint="@color/colorRed" />
 
     <ImageButton
         android:id="@+id/call_controls_button"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/button_image_passive"
         android:contentDescription="@string/more_settings"
-        android:tint="@color/colorAccent"
         app:layout_constraintEnd_toStartOf="@+id/hangup_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:srcCompat="@drawable/ic_more_horiz_black_35dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        app:srcCompat="@drawable/ic_more_horiz_black_35dp"
+        app:tint="@color/colorAccent" />
 
     <TextView
         android:id="@+id/issues_log_textview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,68 +74,66 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:numColumns="2"
-        android:layout_marginBottom="8dp"
-        android:gravity="start"
         android:stretchMode="columnWidth"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/call_controls"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:visibility="invisible"
         android:background="@color/colorWhite"
+        android:visibility="invisible"
         app:layout_constraintTop_toBottomOf="@+id/hangup_button">
 
         <ImageButton
             android:id="@+id/hold_button"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/button_image_passive"
             android:contentDescription="@string/hold_unhold_call"
-            android:tint="@color/colorAccent"
             app:layout_constraintEnd_toStartOf="@+id/switch_camera_button"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_phone_paused_black_35dp" />
+            app:srcCompat="@drawable/ic_phone_paused_black_35dp"
+            app:tint="@color/colorAccent" />
 
         <ImageButton
             android:id="@+id/switch_camera_button"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/button_image_passive"
             android:contentDescription="@string/switch_camera"
-            android:tint="@color/colorAccent"
             app:layout_constraintEnd_toStartOf="@+id/audio_device_button"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/hold_button"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_camera_rear_black_35dp" />
+            app:srcCompat="@drawable/ic_camera_rear_black_35dp"
+            app:tint="@color/colorAccent" />
 
         <ImageButton
             android:id="@+id/audio_device_button"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/button_image_passive"
             android:contentDescription="@string/speaker_on_off"
-            android:tint="@color/colorAccent"
             app:layout_constraintEnd_toStartOf="@+id/mute_audio_button"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/switch_camera_button"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_hearing_black_35dp" />
+            app:srcCompat="@drawable/ic_hearing_black_35dp"
+            app:tint="@color/colorAccent" />
 
         <ImageButton
             android:id="@+id/mute_audio_button"
@@ -172,24 +142,22 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/button_image_passive"
             android:contentDescription="@string/mute_audio"
-            android:tint="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/audio_device_button"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_mic_off_black_35dp" />
+            app:srcCompat="@drawable/ic_mic_off_black_35dp"
+            app:tint="@color/colorAccent" />
 
         <CheckBox
             android:id="@+id/send_video_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:layout_weight="1"
+            android:layout_marginBottom="8dp"
             android:text="@string/send_video"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/receive_video_checkbox"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/hold_button" />
 
@@ -197,20 +165,31 @@
             android:id="@+id/receive_video_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
+            android:layout_marginBottom="8dp"
             android:text="@string/receive_video"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/send_video_checkbox"
             app:layout_constraintTop_toBottomOf="@+id/hold_button" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/video_views_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

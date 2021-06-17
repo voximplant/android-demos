@@ -5,6 +5,7 @@
 package com.voximplant.demos.quality_issues.ui.calls;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 
@@ -12,16 +13,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.voximplant.demos.quality_issues.R;
 import com.voximplant.demos.quality_issues.ui.call.CallActivity;
 import com.voximplant.demos.quality_issues.ui.login.LoginActivity;
+import com.voximplant.demos.quality_issues.utils.SharedPreferencesHelper;
 import com.voximplant.sdk.Voximplant;
 
 import java.util.ArrayList;
@@ -29,8 +33,10 @@ import java.util.ArrayList;
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 import static com.voximplant.demos.quality_issues.utils.Constants.CALL_ANSWERED;
 import static com.voximplant.demos.quality_issues.utils.Constants.CALL_ID;
+import static com.voximplant.demos.quality_issues.utils.Constants.IS_CONFERENCE;
 import static com.voximplant.demos.quality_issues.utils.Constants.INCOMING_CALL;
 import static com.voximplant.demos.quality_issues.utils.Constants.INCOMING_CALL_RESULT;
+import static com.voximplant.demos.quality_issues.utils.Constants.OUTGOING_USERNAME;
 import static com.voximplant.demos.quality_issues.utils.Constants.WITH_VIDEO;
 
 public class MakeCallActivity extends AppCompatActivity implements MakeCallContract.View {
@@ -41,6 +47,7 @@ public class MakeCallActivity extends AppCompatActivity implements MakeCallContr
     private EditText mCallToView;
     private ImageButton mAudioCallButton;
     private ImageButton mVideoCallButton;
+    private CheckBox mConfCheckBox;
     private MakeCallContract.Presenter mPresenter;
 
     private AlertDialog mAlertDialog;
@@ -49,6 +56,7 @@ public class MakeCallActivity extends AppCompatActivity implements MakeCallContr
     private boolean mIsAudioPermissionsGranted;
     private boolean mIsVideoPermissionsGranted;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +65,13 @@ public class MakeCallActivity extends AppCompatActivity implements MakeCallContr
         mCallToView = findViewById(R.id.call_to);
         mAudioCallButton = findViewById(R.id.button_audio_call);
         mVideoCallButton = findViewById(R.id.button_video_call);
+        mConfCheckBox = findViewById(R.id.isConfCheckBox);
+
+        mCallToView.setText(SharedPreferencesHelper.get().getStringFromPrefs(OUTGOING_USERNAME));
+        mConfCheckBox.setChecked(SharedPreferencesHelper.get().getBooleanFromPrefs(IS_CONFERENCE));
 
         mAudioCallButton.setOnClickListener(v -> {
-            mPresenter.makeCall(mCallToView.getText().toString(), false);
+            mPresenter.makeCall(mCallToView.getText().toString(), false, mConfCheckBox.isChecked());
             hideKeyboard(v);
         });
         mAudioCallButton.setOnTouchListener((v, event) -> {
@@ -68,7 +80,7 @@ public class MakeCallActivity extends AppCompatActivity implements MakeCallContr
         });
 
         mVideoCallButton.setOnClickListener(v -> {
-            mPresenter.makeCall(mCallToView.getText().toString(), true);
+            mPresenter.makeCall(mCallToView.getText().toString(), true, mConfCheckBox.isChecked());
             hideKeyboard(v);
         });
         mVideoCallButton.setOnTouchListener((v, event) -> {
@@ -89,11 +101,9 @@ public class MakeCallActivity extends AppCompatActivity implements MakeCallContr
             intent.putExtra("processed", true);
             String callId = intent.getStringExtra(CALL_ID);
             int result = intent.getIntExtra(INCOMING_CALL_RESULT, -1);
-            switch (result) {
-                case CALL_ANSWERED:
-                    boolean withVideo = intent.getBooleanExtra(WITH_VIDEO, false);
-                    mPresenter.answerCall(callId, withVideo);
-                    break;
+            if (result == CALL_ANSWERED) {
+                boolean withVideo = intent.getBooleanExtra(WITH_VIDEO, false);
+                mPresenter.answerCall(callId, withVideo);
             }
         }
 
@@ -120,7 +130,7 @@ public class MakeCallActivity extends AppCompatActivity implements MakeCallContr
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         if (mAlertDialog != null) {
             mAlertDialog.dismiss();
@@ -129,7 +139,7 @@ public class MakeCallActivity extends AppCompatActivity implements MakeCallContr
 
     @Override
     public void notifyConnectionClosed() {
-        showAlertDialog(R.string.alert_title_disconnected, R.string.alert_content_disconnected);
+        showAlertDialog();
     }
 
     @Override
@@ -153,16 +163,16 @@ public class MakeCallActivity extends AppCompatActivity implements MakeCallContr
         if (missingPermissions.size() == 0) {
             return true;
         } else {
-            ActivityCompat.requestPermissions(this, missingPermissions.toArray(new String[missingPermissions.size()]), PERMISSION_GRANTED);
+            ActivityCompat.requestPermissions(this, missingPermissions.toArray(new String[0]), PERMISSION_GRANTED);
             mPermissionRequestedMode = isVideoCall ? PERMISSION_REQUESTED_VIDEO : PERMISSION_REQUESTED_AUDIO;
             return false;
         }
     }
 
-    private void showAlertDialog(int resTitle, int resContent) {
+    private void showAlertDialog() {
         runOnUiThread(() -> mAlertDialog = new AlertDialog.Builder(MakeCallActivity.this)
-                .setTitle(resTitle)
-                .setMessage(resContent)
+                .setTitle(R.string.alert_title_disconnected)
+                .setMessage(R.string.alert_content_disconnected)
                 .setPositiveButton(R.string.alert_positive_button, (dialog, which) -> {
                     mPresenter.logout();
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -176,17 +186,17 @@ public class MakeCallActivity extends AppCompatActivity implements MakeCallContr
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 button.setColorFilter(getResources().getColor(R.color.colorWhite));
-                button.setBackground(getResources().getDrawable(R.drawable.button_image_active));
+                button.setBackgroundResource(R.drawable.button_image_active);
                 break;
             case MotionEvent.ACTION_UP:
                 button.setColorFilter(getResources().getColor(R.color.colorAccent));
-                button.setBackground(getResources().getDrawable(R.drawable.button_image_passive));
+                button.setBackgroundResource(R.drawable.button_image_passive);
                 break;
         }
     }
 
     private void hideKeyboard(View v) {
-        InputMethodManager imm =  (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }

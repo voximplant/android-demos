@@ -23,11 +23,12 @@ import static com.voximplant.demos.quality_issues.utils.Constants.USERNAME;
 
 public class VoxClientManager implements IClientSessionListener, IClientLoginListener {
     private IClient mClient = null;
-    private CopyOnWriteArrayList<IClientManagerListener> mListeners = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<IClientManagerListener> mListeners = new CopyOnWriteArrayList<>();
 
     private String mUsername = null;
     private String mPassword = null;
-    private ArrayList<String> mServers = new ArrayList<>();
+    private String mDisplayName = null;
+    private final ArrayList<String> mServers = new ArrayList<>();
 
     public VoxClientManager() {
 
@@ -61,6 +62,11 @@ public class VoxClientManager implements IClientSessionListener, IClientLoginLis
             if (mClient.getClientState() == ClientState.CONNECTED) {
                 mClient.login(username, password);
             }
+            if (mClient.getClientState() == ClientState.LOGGED_IN) {
+                for (IClientManagerListener listener : mListeners) {
+                    listener.onLoginSuccess(mDisplayName);
+                }
+            }
         }
     }
 
@@ -86,6 +92,9 @@ public class VoxClientManager implements IClientSessionListener, IClientLoginLis
 
     @Override
     public synchronized void onConnectionClosed() {
+        mUsername = null;
+        mPassword = null;
+        mDisplayName = null;
         for (IClientManagerListener listener : mListeners) {
             listener.onConnectionClosed();
         }
@@ -93,6 +102,7 @@ public class VoxClientManager implements IClientSessionListener, IClientLoginLis
 
     @Override
     public synchronized void onLoginSuccessful(String displayName, AuthParams authParams) {
+        mDisplayName = displayName;
         SharedPreferencesHelper.get().saveToPrefs(USERNAME, mUsername);
         for (IClientManagerListener listener : mListeners) {
             listener.onLoginSuccess(displayName);

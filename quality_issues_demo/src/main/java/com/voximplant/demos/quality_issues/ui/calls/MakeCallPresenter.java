@@ -4,6 +4,7 @@
 
 package com.voximplant.demos.quality_issues.ui.calls;
 
+import com.voximplant.demos.quality_issues.utils.SharedPreferencesHelper;
 import com.voximplant.sdk.call.ICall;
 import com.voximplant.sdk.call.VideoFlags;
 import com.voximplant.demos.quality_issues.Shared;
@@ -13,12 +14,15 @@ import com.voximplant.demos.quality_issues.manager.VoxClientManager;
 
 import java.lang.ref.WeakReference;
 
+import static com.voximplant.demos.quality_issues.utils.Constants.IS_CONFERENCE;
+import static com.voximplant.demos.quality_issues.utils.Constants.OUTGOING_USERNAME;
+
 public class MakeCallPresenter implements MakeCallContract.Presenter, IClientManagerListener {
-    private class CallDescriptor {
-        private String mCallId;
-        private boolean mWithVideo;
-        private String mUser;
-        private boolean mIsIncoming;
+    private static class CallDescriptor {
+        private final String mCallId;
+        private final boolean mWithVideo;
+        private final String mUser;
+        private final boolean mIsIncoming;
 
         CallDescriptor(String callId, boolean withVideo, String user, boolean isIncoming) {
             mCallId = callId;
@@ -27,15 +31,26 @@ public class MakeCallPresenter implements MakeCallContract.Presenter, IClientMan
             mIsIncoming = isIncoming;
         }
 
-        String getCallId() { return mCallId; }
-        boolean getIsVideo() { return mWithVideo; }
-        String getUser() { return mUser; }
-        boolean getIsIncoming() { return mIsIncoming; }
+        String getCallId() {
+            return mCallId;
+        }
+
+        boolean getIsVideo() {
+            return mWithVideo;
+        }
+
+        String getUser() {
+            return mUser;
+        }
+
+        boolean getIsIncoming() {
+            return mIsIncoming;
+        }
     }
 
-    private WeakReference<MakeCallContract.View> mView;
-    private VoxCallManager mCallManager = Shared.getInstance().getCallManager();
-    private VoxClientManager mClientManager = Shared.getInstance().getClientManager();
+    private final WeakReference<MakeCallContract.View> mView;
+    private final VoxCallManager mCallManager = Shared.getInstance().getCallManager();
+    private final VoxClientManager mClientManager = Shared.getInstance().getClientManager();
     private CallDescriptor mCallWaitingPermissions = null;
 
     MakeCallPresenter(MakeCallContract.View view) {
@@ -72,7 +87,9 @@ public class MakeCallPresenter implements MakeCallContract.Presenter, IClientMan
     }
 
     @Override
-    public void makeCall(String user, boolean withVideo) {
+    public void makeCall(String user, boolean withVideo, boolean isConf) {
+        SharedPreferencesHelper.get().saveToPrefs(OUTGOING_USERNAME, user);
+        SharedPreferencesHelper.get().saveToPrefs(IS_CONFERENCE, isConf);
         MakeCallContract.View view = mView.get();
         if (view == null) {
             return;
@@ -81,7 +98,7 @@ public class MakeCallPresenter implements MakeCallContract.Presenter, IClientMan
             view.notifyInvalidCallUser();
             return;
         }
-        String callId = mCallManager.createCall(user, new VideoFlags(withVideo, withVideo));
+        String callId = mCallManager.createCall(user, new VideoFlags(withVideo, withVideo), isConf);
         if (view.checkPermissionsGrantedForCall(withVideo)) {
             view.startCallActivity(callId, withVideo, user, false);
         } else {

@@ -4,6 +4,7 @@
 
 package com.voximplant.demos.quality_issues.ui.call;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,9 +54,11 @@ public class CallActivity extends AppCompatActivity implements CallContract.View
 
     private CallContract.Presenter mPresenter;
 
-    private SurfaceViewRenderer mLocalVideoView;
-    private SurfaceViewRenderer mRemoteVideoView;
+    private VideoViewsHelper mVideoViewsHelper;
 
+    boolean isActive = true;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,9 +73,6 @@ public class CallActivity extends AppCompatActivity implements CallContract.View
         mQualityIssuesLog.setMovementMethod(new ScrollingMovementMethod());
         GridView currentIssuesView = findViewById(R.id.current_issues_view);
 
-        mLocalVideoView = findViewById(R.id.local_video_view);
-        mRemoteVideoView = findViewById(R.id.remote_video_view);
-
         mCallControlsArea = findViewById(R.id.call_controls);
         mHoldButton = findViewById(R.id.hold_button);
         mSwitchCameraButton = findViewById(R.id.switch_camera_button);
@@ -79,6 +80,10 @@ public class CallActivity extends AppCompatActivity implements CallContract.View
         mAudioDeviceButton = findViewById(R.id.audio_device_button);
         mSendVideoCheckBox = findViewById(R.id.send_video_checkbox);
         mReceiveVideoCheckBox = findViewById(R.id.receive_video_checkbox);
+
+        LinearLayout mVideoViewLayout = findViewById(R.id.video_views_layout);
+
+        mVideoViewsHelper = new VideoViewsHelper(getApplicationContext(), mVideoViewLayout);
 
         mPresenter = new CallPresenter(this, callId, isIncomingCall, withVideo);
         mPresenter.start();
@@ -191,37 +196,40 @@ public class CallActivity extends AppCompatActivity implements CallContract.View
 
     @Override
     public void createLocalVideoView() {
-        runOnUiThread(() -> mLocalVideoView.setVisibility(View.VISIBLE));
-        mPresenter.localVideoViewCreated(mLocalVideoView);
+        runOnUiThread(() -> mPresenter.localVideoViewCreated(mVideoViewsHelper.addLocalVideoView()));
     }
 
     @Override
     public void removeLocalVideoView() {
-        runOnUiThread(() -> mLocalVideoView.setVisibility(View.INVISIBLE));
-        mPresenter.localVideoViewRemoved(mLocalVideoView);
+        runOnUiThread(() -> mPresenter.localVideoViewRemoved(mVideoViewsHelper.removeLocalVideoView()));
     }
 
     @Override
     public void createRemoteVideoView(String streamId, String displayName) {
-        runOnUiThread(() -> mRemoteVideoView.setVisibility(View.VISIBLE));
-        mPresenter.remoteVideoViewCreated(streamId, mRemoteVideoView);
+        runOnUiThread(() -> mPresenter.remoteVideoViewCreated(streamId, mVideoViewsHelper.addRemoteVideoView(streamId, displayName)));
     }
 
     @Override
     public void removeRemoteVideoView(String streamId) {
-        runOnUiThread(() -> mRemoteVideoView.setVisibility(View.INVISIBLE));
-        mPresenter.remoteVideoViewRemoved(streamId, mRemoteVideoView);
+        runOnUiThread(() -> mPresenter.remoteVideoViewRemoved(streamId, mVideoViewsHelper.removeRemoteVideoView(streamId)));
     }
 
     @Override
     public void removeAllVideoViews() {
+        runOnUiThread(() -> mVideoViewsHelper.removeAllVideoViews());
+    }
 
+    @Override
+    public void showVideoView(SurfaceViewRenderer renderer) {
+        runOnUiThread(() -> renderer.setVisibility(View.VISIBLE));
     }
 
     @Override
     public void callDisconnected() {
+        isActive = false;
         Intent intent = new Intent(getApplicationContext(), MakeCallActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -265,7 +273,7 @@ public class CallActivity extends AppCompatActivity implements CallContract.View
                     color = getResources().getColor(R.color.colorRed);
                     break;
                 case NONE:
-                    default:
+                default:
                     color = getResources().getColor(R.color.colorGreen);
                     break;
             }
@@ -303,12 +311,25 @@ public class CallActivity extends AppCompatActivity implements CallContract.View
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 button.setColorFilter(getResources().getColor(R.color.colorWhite));
-                button.setBackground(isRed ? getResources().getDrawable(R.drawable.button_image_red_active) : getResources().getDrawable(R.drawable.button_image_active));
+                button.setBackgroundResource(isRed ? R.drawable.button_image_red_active : R.drawable.button_image_active);
                 break;
             case MotionEvent.ACTION_UP:
                 button.setColorFilter(isRed ? getResources().getColor(R.color.colorRed) : getResources().getColor(R.color.colorAccent));
-                button.setBackground(isRed ? getResources().getDrawable(R.drawable.button_image_red_passive) : getResources().getDrawable(R.drawable.button_image_passive));
+                button.setBackgroundResource(isRed ? R.drawable.button_image_red_passive : R.drawable.button_image_passive);
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isActive) {
+            mPresenter.stopCall();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }

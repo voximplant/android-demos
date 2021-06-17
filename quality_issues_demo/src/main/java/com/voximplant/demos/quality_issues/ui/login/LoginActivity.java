@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     private void hideKeyboard(View view) {
-        InputMethodManager imm =  (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
@@ -128,19 +128,17 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     public void showError(int error) {
         runOnUiThread(() -> {
             int titleRes;
-            switch (error) {
-                case R.string.alert_content_connection_failed:
-                    titleRes = R.string.alert_title_connection_failed;
-                    break;
-                default:
-                    titleRes = R.string.alert_login_failed;
-                    break;
+            if (error == R.string.alert_content_connection_failed) {
+                titleRes = R.string.alert_title_connection_failed;
+            } else {
+                titleRes = R.string.alert_login_failed;
             }
 
             new AlertDialog.Builder(this)
                     .setTitle(getString(titleRes))
                     .setMessage(getString(error))
-                    .setPositiveButton(R.string.alert_positive_button, (dialog, which) -> {})
+                    .setPositiveButton(R.string.alert_positive_button, (dialog, which) -> {
+                    })
                     .show();
         });
     }

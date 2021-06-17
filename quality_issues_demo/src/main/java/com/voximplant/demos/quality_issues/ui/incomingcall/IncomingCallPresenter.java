@@ -23,7 +23,7 @@ public class IncomingCallPresenter implements IncomingCallContract.Presenter, IC
     private final WeakReference<IncomingCallContract.View> mView;
     private WeakReference<ICall> mCall;
     private final VoxCallManager mCallManager = Shared.getInstance().getCallManager();
-    private HashMap<String, String> mHeaders = null;
+    private final HashMap<String, String> mHeaders = null;
 
 
     IncomingCallPresenter(IncomingCallContract.View view, String callId) {
@@ -37,7 +37,8 @@ public class IncomingCallPresenter implements IncomingCallContract.Presenter, IC
     }
 
     @Override
-    public void start() {}
+    public void start() {
+    }
 
     private void stop() {
         ICall call = mCall.get();

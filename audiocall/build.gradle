@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion versions.compileSdk
 
-
     defaultConfig {
         applicationId "com.voximplant.demos.audiocall"
         minSdkVersion versions.minSdk
@@ -37,13 +36,14 @@ dependencies {
 
     implementation "com.voximplant:voximplant-sdk:${versions.voximplant}"
 
-    implementation "androidx.core:core:${versions.core}"
     implementation "androidx.appcompat:appcompat:${versions.appcompat}"
     implementation "androidx.constraintlayout:constraintlayout:${versions.constraintlayout}"
     implementation "com.google.android.material:material:${versions.material}"
     implementation "androidx.vectordrawable:vectordrawable:${versions.vectordrawable}"
+    implementation 'androidx.annotation:annotation:1.2.0'
+    implementation "androidx.core:core:${versions.core}"
 
-    implementation platform("com.google.firebase:firebase-bom:${versions.firebase}")
+    implementation platform("com.google.firebase:firebase-bom:${versions.firebaseBoM}")
     implementation 'com.google.firebase:firebase-messaging'
 
     testImplementation "junit:junit:${versions.junit}"

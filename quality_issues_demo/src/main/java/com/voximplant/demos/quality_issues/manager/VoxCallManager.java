@@ -17,7 +17,7 @@ import com.voximplant.sdk.call.CallStats;
 import com.voximplant.sdk.call.ICall;
 import com.voximplant.sdk.call.ICallListener;
 import com.voximplant.sdk.call.IEndpoint;
-import com.voximplant.sdk.call.IVideoStream;
+import com.voximplant.sdk.call.ILocalVideoStream;
 import com.voximplant.sdk.call.RejectMode;
 import com.voximplant.sdk.call.VideoFlags;
 import com.voximplant.sdk.client.IClient;
@@ -33,10 +33,11 @@ import static com.voximplant.demos.quality_issues.utils.Constants.DISPLAY_NAME;
 import static com.voximplant.demos.quality_issues.utils.Constants.WITH_VIDEO;
 
 public class VoxCallManager implements IClientIncomingCallListener, ICallListener {
+    private boolean mIsConf;
     private ICall mCall = null;
     private final IClient mClient;
     private final Context mAppContext;
-    private CopyOnWriteArrayList<ICallEventsListener> mCallEventsListeners = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<ICallEventsListener> mCallEventsListeners = new CopyOnWriteArrayList<>();
 
     public VoxCallManager(IClient client, Context appContext) {
         mClient = client;
@@ -58,20 +59,24 @@ public class VoxCallManager implements IClientIncomingCallListener, ICallListene
         }
     }
 
-    public String createCall(String user, VideoFlags videoFlags) {
+    public String createCall(String user, VideoFlags videoFlags, boolean isConf) {
+        mIsConf = isConf;
         if (mCall == null) {
             CallSettings callSettings = new CallSettings();
             callSettings.videoFlags = videoFlags;
-            ICall call = mClient.call(user, callSettings);
+            ICall call = isConf ? mClient.callConference(user, callSettings) : mClient.call(user, callSettings);
             if (call != null) {
                 mCall = call;
                 return call.getCallId();
             }
-            return null;
         } else {
             Log.e(APP_TAG, "Failed to create a call, this demo supports only one active call");
-            return null;
         }
+        return null;
+    }
+
+    public boolean isConf() {
+        return mIsConf;
     }
 
     public void endAllCalls() {
@@ -101,7 +106,7 @@ public class VoxCallManager implements IClientIncomingCallListener, ICallListene
     }
 
     @Override
-    public void onIncomingCall(ICall call, boolean video,  Map<String, String> headers) {
+    public void onIncomingCall(ICall call, boolean video, Map<String, String> headers) {
         if (mCall == null) {
             mCall = call;
             Intent incomingCallIntent = new Intent(mAppContext, IncomingCallActivity.class);
@@ -175,14 +180,14 @@ public class VoxCallManager implements IClientIncomingCallListener, ICallListene
     }
 
     @Override
-    public void onLocalVideoStreamAdded(ICall call, IVideoStream videoStream) {
+    public void onLocalVideoStreamAdded(ICall call, ILocalVideoStream videoStream) {
         for (ICallEventsListener listener : mCallEventsListeners) {
             listener.onLocalVideoStreamAdded(videoStream);
         }
     }
 
     @Override
-    public void onLocalVideoStreamRemoved(ICall call, IVideoStream videoStream) {
+    public void onLocalVideoStreamRemoved(ICall call, ILocalVideoStream videoStream) {
         for (ICallEventsListener listener : mCallEventsListeners) {
             listener.onLocalVideoStreamRemoved(videoStream);
         }

@@ -12,7 +12,6 @@ import com.voximplant.sdk.client.IClient;
 import com.voximplant.sdk.Voximplant;
 import com.voximplant.demos.quality_issues.manager.VoxCallManager;
 import com.voximplant.demos.quality_issues.manager.VoxClientManager;
-import com.voximplant.demos.quality_issues.utils.ForegroundCheck;
 import com.voximplant.demos.quality_issues.utils.SharedPreferencesHelper;
 
 import java.util.concurrent.Executors;
@@ -21,7 +20,6 @@ public class SDKDemoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ForegroundCheck.init(this);
         SharedPreferencesHelper.init(getApplicationContext());
         NotificationHelper.init(getApplicationContext());
 

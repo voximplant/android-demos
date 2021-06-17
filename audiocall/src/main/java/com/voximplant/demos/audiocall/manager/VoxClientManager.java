@@ -7,14 +7,15 @@ package com.voximplant.demos.audiocall.manager;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.voximplant.demos.audiocall.utils.MD5;
 import com.voximplant.demos.audiocall.utils.SharedPreferencesHelper;
 import com.voximplant.sdk.client.AuthParams;
 import com.voximplant.sdk.client.ClientState;
 import com.voximplant.sdk.client.IClient;
 import com.voximplant.sdk.client.IClientLoginListener;
 import com.voximplant.sdk.client.IClientSessionListener;
+import com.voximplant.sdk.client.IPushTokenCompletionHandler;
 import com.voximplant.sdk.client.LoginError;
+import com.voximplant.sdk.client.PushTokenError;
 
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -32,7 +33,7 @@ import static com.voximplant.sdk.client.ClientState.LOGGED_IN;
 public class VoxClientManager implements IClientSessionListener, IClientLoginListener {
 
     private IClient mClient = null;
-    private CopyOnWriteArrayList<IClientManagerListener> mListeners = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<IClientManagerListener> mListeners = new CopyOnWriteArrayList<>();
     private String mUsername = null;
     private String mPassword = null;
     private String mFireBaseToken;
@@ -110,31 +111,27 @@ public class VoxClientManager implements IClientSessionListener, IClientLoginLis
             }
         }
     }
-
-    private void loginWithKey(String username, String password) {
-        mUsername = username;
-        mPassword = password;
-        if (mClient != null) {
-            if (mClient.getClientState() == ClientState.DISCONNECTED) {
-                try {
-                    mClient.connect();
-                } catch (IllegalStateException e) {
-                    Log.e(APP_TAG, "loginWithKey: exception on connect: " + e);
-                }
-            }
-            if (mClient.getClientState() == ClientState.CONNECTED) {
-                mClient.requestOneTimeKey(username);
-            }
-        }
-    }
     //endregion
 
     public void logout() {
-        if (mClient != null && mClient.getClientState() == LOGGED_IN) {
-            enablePushNotifications(false);
+        if (mClient != null) {
+            if (mClient.getClientState() == LOGGED_IN) {
+                enablePushNotifications(false, new IPushTokenCompletionHandler() {
+                    @Override
+                    public void onSuccess() {
+                        mClient.disconnect();
+                    }
+
+                    @Override
+                    public void onFailure(PushTokenError pushTokenError) {
+                        mClient.disconnect();
+                    }
+                });
+            } else {
+                mClient.disconnect();
+            }
             mDisplayName = null;
             removeTokens();
-            mClient.disconnect();
         }
     }
 
@@ -169,7 +166,7 @@ public class VoxClientManager implements IClientSessionListener, IClientLoginLis
     //region PushNotifications
     public void firebaseTokenRefreshed(String token) {
         mFireBaseToken = token;
-        enablePushNotifications(true);
+        enablePushNotifications(true, null);
     }
 
     public void pushNotificationReceived(Map<String, String> message) {
@@ -177,11 +174,11 @@ public class VoxClientManager implements IClientSessionListener, IClientLoginLis
         loginWithToken();
     }
 
-    private void enablePushNotifications(boolean enable) {
+    private void enablePushNotifications(boolean enable, IPushTokenCompletionHandler handler) {
         if (enable) {
-            mClient.registerForPushNotifications(mFireBaseToken, null);
+            mClient.registerForPushNotifications(mFireBaseToken, handler);
         } else {
-            mClient.unregisterFromPushNotifications(mFireBaseToken, null);
+            mClient.unregisterFromPushNotifications(mFireBaseToken, handler);
         }
     }
     //endregion
@@ -208,6 +205,9 @@ public class VoxClientManager implements IClientSessionListener, IClientLoginLis
 
     @Override
     public synchronized void onConnectionClosed() {
+        mUsername = null;
+        mPassword = null;
+        mDisplayName = null;
         for (IClientManagerListener listener : mListeners) {
             listener.onConnectionClosed();
         }
@@ -217,7 +217,7 @@ public class VoxClientManager implements IClientSessionListener, IClientLoginLis
     //region IClientLoginListener
     @Override
     public synchronized void onLoginSuccessful(String displayName, AuthParams authParams) {
-        enablePushNotifications(true);
+        enablePushNotifications(true, null);
         mDisplayName = displayName;
         if (authParams != null) {
             saveAuthDetailsToSharedPreferences(authParams);
@@ -237,8 +237,6 @@ public class VoxClientManager implements IClientSessionListener, IClientLoginLis
 
     @Override
     public void onOneTimeKeyGenerated(String key) {
-        String hash = MD5.get(key + "|" + MD5.get(mUsername.substring(0, mUsername.indexOf("@")) + ":voximplant.com:" + mPassword));
-        mClient.loginWithOneTimeKey(mUsername, hash);
     }
 
     @Override

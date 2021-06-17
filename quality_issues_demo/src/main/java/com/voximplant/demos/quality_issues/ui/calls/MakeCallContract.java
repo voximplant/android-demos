@@ -19,7 +19,8 @@ interface MakeCallContract {
 
     interface Presenter extends BasePresenter {
         void answerCall(String callId, boolean withVideo);
-        void makeCall(String user, boolean withVideo);
+
+        void makeCall(String user, boolean withVideo, boolean isConf);
 
         void permissionsAreGrantedForCall();
 
