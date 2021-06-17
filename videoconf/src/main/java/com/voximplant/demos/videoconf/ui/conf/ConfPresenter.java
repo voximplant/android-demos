@@ -16,6 +16,8 @@ import com.voximplant.sdk.call.ICallCompletionHandler;
 import com.voximplant.sdk.call.ICallListener;
 import com.voximplant.sdk.call.IEndpoint;
 import com.voximplant.sdk.call.IEndpointListener;
+import com.voximplant.sdk.call.ILocalVideoStream;
+import com.voximplant.sdk.call.IRemoteVideoStream;
 import com.voximplant.sdk.call.IVideoStream;
 import com.voximplant.sdk.call.RenderScaleType;
 import com.voximplant.sdk.hardware.AudioDevice;
@@ -189,7 +191,7 @@ public class ConfPresenter implements ConfContract.Presenter, ICallListener, IEn
     }
 
     @Override
-    public void onLocalVideoStreamAdded(ICall call, IVideoStream videoStream) {
+    public void onLocalVideoStreamAdded(ICall call, ILocalVideoStream videoStream) {
         Log.i(APP_TAG, "onLocalVideoStreamAdded: " + call.getCallId());
         ConfContract.View view = mView.get();
         if (view != null) {
@@ -200,7 +202,7 @@ public class ConfPresenter implements ConfContract.Presenter, ICallListener, IEn
     }
 
     @Override
-    public void onLocalVideoStreamRemoved(ICall call, IVideoStream videoStream) {
+    public void onLocalVideoStreamRemoved(ICall call, ILocalVideoStream videoStream) {
         Log.i(APP_TAG, "onLocalVideoStreamRemoved: " + call.getCallId());
         mEndpointVideoStreams.remove(videoStream);
         ConfContract.View view = mView.get();
@@ -221,7 +223,7 @@ public class ConfPresenter implements ConfContract.Presenter, ICallListener, IEn
     }
 
     @Override
-    public void onRemoteVideoStreamAdded(IEndpoint endpoint, IVideoStream videoStream) {
+    public void onRemoteVideoStreamAdded(IEndpoint endpoint, IRemoteVideoStream videoStream) {
         mEndpointVideoStreams.put(videoStream, endpoint.getEndpointId());
         ConfContract.View view = mView.get();
         if (view != null) {
@@ -231,7 +233,7 @@ public class ConfPresenter implements ConfContract.Presenter, ICallListener, IEn
     }
 
     @Override
-    public void onRemoteVideoStreamRemoved(IEndpoint endpoint, IVideoStream videoStream) {
+    public void onRemoteVideoStreamRemoved(IEndpoint endpoint, IRemoteVideoStream videoStream) {
         mEndpointVideoStreams.remove(videoStream);
         ConfContract.View view = mView.get();
         if (view != null) {
