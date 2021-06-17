@@ -64,7 +64,7 @@ You can set up it manually using our [quickstart guide](https://voximplant.com/d
 ## Usage
 
 ### User login
-![login](screenshots/login.png)
+<img src="screenshots/login.png" width=400>
 
 Log in using:
 * Voximplant user name in the format `user@app.account`
@@ -75,7 +75,7 @@ See the following files for code details:
 - [LoginPackage](src/main/java/com/voximplant/demos/quality_issues_demo/ui/login)
 
 ### Make or receive calls
-![makeCall](screenshots/makeCall.png)
+<img src="screenshots/makeCall.png" width=400>
 
 Enter a Voximplant user name to the input field, set checkbox to true if you want to make conference and press "Call" button to make a call.
 
@@ -85,14 +85,14 @@ See the following files for code details:
 - [incomingCallPackage](src/main/java/com/voximplant/demos/quality_issues_demo/ui/incomingcall)
 
 ### Quality Issues
-![inCall](screenshots/inCall.png)
+<img src="screenshots/inCall.png" width=400>
 Quality Issues with current status are listed at the bottom and also logged to the text view on the middle of the screen.
 
 See the following files for code details:
 - [CallPackage](src/main/java/com/voximplant/demos/quality_issues_demo/ui/call)
 
 ### Call controls
-![callControl](screenshots/callControl.png)
+<img src="screenshots/callControl.png" width=400>
 Hold, change video sending or switch camera during a call from options menu. Tap on a video view to enlarge or decrease it.
 
 See the following classes for code details:
