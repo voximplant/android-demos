@@ -27,6 +27,8 @@ public class IncomingCallPresenter implements IncomingCallContract.Presenter, IC
         if (call != null) {
             mCall = new WeakReference<>(call);
             call.addCallListener(this);
+        } else {
+            view.finishActivity();
         }
     }
 
@@ -35,10 +37,12 @@ public class IncomingCallPresenter implements IncomingCallContract.Presenter, IC
     }
 
     private void stop() {
-        IncomingCallContract.View view = mView.get();
         ICall call = mCall.get();
-        if (view != null && call != null) {
+        if (call != null) {
             call.removeCallListener(this);
+        }
+        IncomingCallContract.View view = mView.get();
+        if (view != null) {
             view.finishActivity();
         }
     }
@@ -47,9 +51,13 @@ public class IncomingCallPresenter implements IncomingCallContract.Presenter, IC
     public void answerCall() {
         IncomingCallContract.View view = mView.get();
         ICall call = mCall.get();
-        if (view != null && call != null && !call.getEndpoints().isEmpty()) {
-            view.startCallActivity(call.getEndpoints().get(0).getUserName(), false);
-            call.removeCallListener(this);
+        if (view != null) {
+            if (call != null && !call.getEndpoints().isEmpty()) {
+                view.startCallActivity(call.getEndpoints().get(0).getUserName(), false);
+                call.removeCallListener(this);
+            } else {
+                view.finishActivity();
+            }
         }
     }
 
@@ -58,6 +66,10 @@ public class IncomingCallPresenter implements IncomingCallContract.Presenter, IC
         ICall call = mCall.get();
         if (call == null) {
             Log.e(APP_TAG, "IncomingCallPresenter: rejectCall: invalid call");
+            IncomingCallContract.View view = mView.get();
+            if (view != null) {
+                view.finishActivity();
+            }
             return;
         }
         mCallManager.rejectCall(call);

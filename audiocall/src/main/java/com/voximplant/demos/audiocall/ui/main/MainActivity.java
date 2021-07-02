@@ -5,14 +5,16 @@
 package com.voximplant.demos.audiocall.ui.main;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -25,7 +27,7 @@ import androidx.core.app.ActivityCompat;
 import com.voximplant.demos.audiocall.R;
 import com.voximplant.demos.audiocall.ui.call.CallActivity;
 import com.voximplant.demos.audiocall.ui.login.LoginActivity;
-import com.voximplant.demos.audiocall.utils.UIHelper;
+import com.voximplant.demos.audiocall.utils.ShareHelper;
 import com.voximplant.sdk.Voximplant;
 
 import java.util.ArrayList;
@@ -37,7 +39,6 @@ import static com.voximplant.demos.audiocall.utils.Constants.USERNAME;
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
     private EditText mCallToView;
-    private ImageButton mCallButton;
     private AlertDialog mAlertDialog;
     private TextView mLoggedInAsTextView;
 
@@ -49,18 +50,39 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Animator reducer = AnimatorInflater.loadAnimator(getApplicationContext(), R.animator.reduce_size);
+        Animator increaser = AnimatorInflater.loadAnimator(getApplicationContext(), R.animator.regain_size);
+
+        ImageButton shareButton = findViewById(R.id.share_log_main);
+        shareButton.setOnClickListener(v -> {
+            Intent shareIntent = ShareHelper.getInstance().createShareIntent(this);
+            if (shareIntent != null) {
+                startActivity(shareIntent);
+            }
+        });
+
         mCallToView = findViewById(R.id.call_to);
-        mCallButton = findViewById(R.id.button_audio_call);
-        mCallButton.setOnClickListener(v -> {
+        Button callButton = findViewById(R.id.start_call_button);
+        callButton.setOnClickListener(v -> {
             if (checkPermissionsGrantedForCall()) {
                 mPresenter.makeCall(mCallToView.getText().toString());
                 hideKeyboard(v);
             }
         });
-        mCallButton.setOnTouchListener((v, event) -> {
-            UIHelper.changeButtonColor(this, mCallButton, event.getAction(), false);
+        callButton.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                reducer.setTarget(v);
+                reducer.start();
+            }
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                increaser.setTarget(v);
+                increaser.start();
+            }
             return false;
         });
+
+        ImageButton logoutButton = findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(v -> mPresenter.logout());
         mLoggedInAsTextView = findViewById(R.id.logged_in_label);
 
         mPresenter = new MainPresenter(this);
@@ -85,25 +107,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             mAlertDialog.dismiss();
         }
     }
-
-    //region AppBar menu
-    // create an action bar button
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    // handle button activities
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_log_out) {
-            showAlertDialog(R.string.alert_title_logout, R.string.alert_content_logout);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    //endregion
 
     //region Permissions
     @Override
@@ -131,13 +134,25 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void notifyConnectionClosed() {
-        showAlertDialog(R.string.alert_title_disconnected, R.string.alert_content_disconnected);
+        showAlertDialog(R.string.alert_title_disconnected, R.string.alert_content_disconnected, false);
     }
 
     @Override
     public void notifyInvalidCallUser() {
         mCallToView.setError(getString(R.string.error_field_required));
         mCallToView.requestFocus();
+    }
+
+    @Override
+    public void notifyLogoutCompleted() {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void notifyCannotMakeCall() {
+        showAlertDialog(R.string.alert_title_disconnected, R.string.alert_content_cannot_make_call, false);
     }
 
     @Override
@@ -148,15 +163,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         startActivity(intent);
     }
 
-    private void showAlertDialog(int resTitle, int resContent) {
+    private void showAlertDialog(int resTitle, int resContent, boolean startLoginActivity) {
         runOnUiThread(() -> mAlertDialog = new AlertDialog.Builder(MainActivity.this)
                 .setTitle(resTitle)
                 .setMessage(resContent)
                 .setPositiveButton(R.string.alert_positive_button, (dialog, which) -> {
-                    mPresenter.logout();
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intent);
-                    finish();
+                    if (startLoginActivity) {
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 })
                 .show());
     }

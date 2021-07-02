@@ -5,24 +5,27 @@
 package com.voximplant.demos.audiocall.ui.login;
 
 import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.voximplant.demos.audiocall.R;
 import com.voximplant.demos.audiocall.ui.main.MainActivity;
+import com.voximplant.demos.audiocall.utils.ShareHelper;
 
-import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
@@ -30,21 +33,19 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     private EditText mLoginView;
     private EditText mPasswordView;
     private View mProgressView;
-    private ConstraintLayout mLoginButtonsContainerLayout;
-    private ConstraintLayout mTokenButtonsContainerLayout;
     private LoginContract.Presenter mLoginPresenter;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        setTitle(getResources().getString(R.string.voximplant));
+        Animator reducer = AnimatorInflater.loadAnimator(getApplicationContext(), R.animator.reduce_size);
+        Animator increaser = AnimatorInflater.loadAnimator(getApplicationContext(), R.animator.regain_size);
 
         mLoginView = findViewById(R.id.email);
         mProgressView = findViewById(R.id.login_progress);
-        mLoginButtonsContainerLayout = findViewById(R.id.login_buttons_layout);
-        mTokenButtonsContainerLayout = findViewById(R.id.login_with_token_elements_layout);
 
         mPasswordView = findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener((textView, i, keyEvent) -> {
@@ -56,31 +57,35 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
             return false;
         });
 
-        Button loginButton = findViewById(R.id.email_sign_in_button);
+        ImageButton shareButton = findViewById(R.id.share_log_login);
+        shareButton.setOnClickListener(v -> {
+            Intent shareIntent = ShareHelper.getInstance().createShareIntent(this);
+            if (shareIntent != null) {
+                startActivity(shareIntent);
+            }
+        });
+
+        Button loginButton = findViewById(R.id.loginButton);
         loginButton.setOnClickListener(view -> {
             hideKeyboard(view);
             mLoginPresenter.loginWithPassword(mLoginView.getText().toString(), mPasswordView.getText().toString());
         });
-        Button loginWithTokenButton = findViewById(R.id.email_sign_in_key_button);
-        loginWithTokenButton.setOnClickListener(view -> {
-            hideKeyboard(view);
-            mLoginPresenter.loginWithAccessToken(mLoginView.getText().toString() + ".voximplant.com");
+
+        loginButton.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                reducer.setTarget(v);
+                reducer.start();
+            }
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                increaser.setTarget(v);
+                increaser.start();
+            }
+            return false;
         });
 
         mLoginPresenter = new LoginPresenter(this);
         mLoginPresenter.start();
         mLoginPresenter.checkIfTokensExist();
-    }
-
-    @Override
-    public void setTokenViewVisibility(boolean visible) {
-        if (visible) {
-            mTokenButtonsContainerLayout.setVisibility(VISIBLE);
-            mTokenButtonsContainerLayout.setEnabled(true);
-        } else {
-            mTokenButtonsContainerLayout.setVisibility(INVISIBLE);
-            mTokenButtonsContainerLayout.setEnabled(false);
-        }
     }
 
     public void hideKeyboard(View view) {
@@ -98,7 +103,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void showProgress(boolean show) {
         runOnUiThread(() -> {
-            mLoginButtonsContainerLayout.setVisibility(show ? INVISIBLE : VISIBLE);
 
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
             mProgressView.setVisibility(show ? VISIBLE : View.GONE);

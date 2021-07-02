@@ -14,6 +14,10 @@ public interface MainContract {
 
         void notifyInvalidCallUser();
 
+        void notifyLogoutCompleted();
+
+        void notifyCannotMakeCall();
+
         void startCallActivity(String user, boolean isIncoming);
 
         void showMyDisplayName(String displayName);

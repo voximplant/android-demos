@@ -70,7 +70,7 @@ You can set up it manually using our [Getting started](https://voximplant.com/do
 ## Usage
 
 ### User login
-![login](screenshots/login.png)
+<img src="screenshots/login.png" width=280>
 
 Log in using:
 * Voximplant user name in the format `user@app.account`
@@ -81,7 +81,7 @@ See the following files for code details:
 - [LoginPackage](src/main/java/com/voximplant/demos/audiocall/ui/login)
 
 ### Make or receive calls
-![call](screenshots/call.png)
+<img src="screenshots/main_incoming.png" width=630>
 
 Enter a Voximplant user name to the input field and press "Call" button to make a call.
 
@@ -91,7 +91,7 @@ See the following files for code details:
 - [incomingCallPackage](src/main/java/com/voximplant/demos/audiocall/ui/incomingcall)
 
 ### Audio call controls
-![inCall](screenshots/inCall.png)
+<img src="screenshots/inCall.png" width=900>
 
 Mute, hold, change an audio device or send DTMFs during a call.
 

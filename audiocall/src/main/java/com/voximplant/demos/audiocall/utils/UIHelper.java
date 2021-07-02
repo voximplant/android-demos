@@ -4,6 +4,7 @@
 
 package com.voximplant.demos.audiocall.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.widget.ImageButton;
@@ -11,6 +12,7 @@ import android.widget.ImageButton;
 import com.voximplant.demos.audiocall.R;
 
 public class UIHelper {
+    @SuppressLint("UseCompatLoadingForDrawables")
     public static void changeButtonColor(Context context, ImageButton button, int action, boolean isRed) {
         switch (action) {
             case MotionEvent.ACTION_DOWN:

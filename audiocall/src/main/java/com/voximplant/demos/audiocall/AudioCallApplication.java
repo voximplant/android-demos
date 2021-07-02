@@ -8,7 +8,7 @@ import android.app.Application;
 
 import com.voximplant.demos.audiocall.manager.VoxCallManager;
 import com.voximplant.demos.audiocall.manager.VoxClientManager;
-import com.voximplant.demos.audiocall.utils.ForegroundCheck;
+import com.voximplant.demos.audiocall.utils.FileLogger;
 import com.voximplant.demos.audiocall.utils.NotificationHelper;
 import com.voximplant.demos.audiocall.utils.SharedPreferencesHelper;
 import com.voximplant.sdk.Voximplant;
@@ -22,9 +22,9 @@ public class AudioCallApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        ForegroundCheck.init(this);
         SharedPreferencesHelper.init(this);
         NotificationHelper.init(this);
+        FileLogger.create(this);
 
         ClientConfig clientConfig = new ClientConfig();
         IClient client = Voximplant.getClientInstance(Executors.newSingleThreadExecutor(), getApplicationContext(), clientConfig);

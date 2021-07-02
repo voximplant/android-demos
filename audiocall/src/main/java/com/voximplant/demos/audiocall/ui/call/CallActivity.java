@@ -20,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.voximplant.demos.audiocall.R;
 import com.voximplant.demos.audiocall.ui.callfailed.CallFailedActivity;
+import com.voximplant.demos.audiocall.ui.main.MainActivity;
 import com.voximplant.demos.audiocall.utils.UIHelper;
 import com.voximplant.sdk.Voximplant;
 import com.voximplant.sdk.hardware.AudioDevice;
@@ -203,6 +204,8 @@ public class CallActivity extends AppCompatActivity implements CallContract.View
 
     @Override
     public void callDisconnected() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
         finish();
     }
 

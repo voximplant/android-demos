@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackgroundWhite"
+    android:background="@color/colorPrimary"
     android:gravity="center_horizontal"
     tools:context=".ui.login.LoginActivity">
 
@@ -13,12 +13,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toStartOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/text_input_layout_password"
+        app:layout_constraintEnd_toStartOf="@+id/vox_domain_label"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,11 +28,25 @@
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:singleLine="true"
-            android:textColor="@color/colorButton"
+            android:textColor="@color/colorWhite"
             android:textSize="16sp"
             tools:ignore="UnusedAttribute" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/vox_domain_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/voximplant_com"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/text_input_layout_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/text_input_layout_email" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_layout_password"
@@ -40,14 +54,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_input_layout_email">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,23 +73,10 @@
             android:inputType="textPassword"
             android:maxLines="1"
             android:singleLine="true"
-            android:textColor="@color/colorButton"
+            android:textColor="@color/colorWhite"
             android:textSize="16sp"
             tools:ignore="UnusedAttribute" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:fontFamily="@font/roboto"
-        android:text="@string/voximplant_com"
-        app:layout_constraintBottom_toBottomOf="@+id/text_input_layout_email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_input_layout_email" />
 
     <ProgressBar
         android:id="@+id/login_progress"
@@ -82,119 +85,64 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@+id/login_buttons_layout"
+        app:layout_constraintEnd_toStartOf="@+id/loginButton"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/login_buttons_layout"
+        app:layout_constraintStart_toEndOf="@+id/loginButton"
         app:layout_constraintTop_toBottomOf="@+id/text_input_layout_password" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/login_buttons_layout"
+    <Button
+        android:id="@+id/loginButton"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_primary"
+        android:fontFamily="@font/roboto"
+        android:text="@string/action_sign_in"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/text_input_layout_password"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/text_input_layout_password"
-        app:layout_constraintTop_toBottomOf="@+id/text_input_layout_password">
+        app:layout_constraintTop_toBottomOf="@+id/text_input_layout_password" />
 
-        <Button
-            android:id="@+id/email_sign_in_button"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_background_selector"
-            android:fontFamily="@font/roboto"
-            android:text="@string/action_sign_in"
-            android:textColor="@color/button_primary_text"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="@string/welcome_label_text"
+        android:textColor="@color/colorWhite"
+        android:textSize="23sp"
+        app:layout_constraintBottom_toTopOf="@+id/text_input_layout_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/login_with_token_elements_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/email_sign_in_button"
-            app:layout_constraintStart_toStartOf="@+id/email_sign_in_button"
-            app:layout_constraintTop_toBottomOf="@+id/email_sign_in_button">
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_voximplant"
+        android:contentDescription="@string/logo" />
 
-            <Button
-                android:id="@+id/email_sign_in_key_button"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/button_background_selector"
-                android:fontFamily="@font/roboto"
-                android:text="@string/action_sign_in_token"
-                android:textColor="@color/button_primary_text"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
-
-            <View
-                android:id="@+id/view"
-                android:layout_width="0dp"
-                android:layout_height="0.5dp"
-                android:background="#545454"
-                app:layout_constraintBottom_toTopOf="@+id/separatorTextView"
-                app:layout_constraintEnd_toStartOf="@+id/guideline2"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="@+id/guideline"
-                app:layout_constraintTop_toBottomOf="@+id/separatorTextView" />
-
-            <TextView
-                android:id="@+id/separatorTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="7dp"
-                android:background="@color/colorBackgroundWhite"
-                android:fontFamily="@font/roboto"
-                android:gravity="center"
-                android:text="@string/separator_view_text"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@+id/email_sign_in_key_button"
-                app:layout_constraintEnd_toStartOf="@+id/guideline4"
-                app:layout_constraintStart_toStartOf="@+id/guideline3"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.32" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.68" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.47" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.53" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageButton
+        android:id="@+id/share_log_login"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="#00FFFFFF"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_share_40"
+        android:layout_marginRight="16dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

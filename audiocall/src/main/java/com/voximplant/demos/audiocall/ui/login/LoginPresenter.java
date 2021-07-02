@@ -34,6 +34,7 @@ public class LoginPresenter implements LoginContract.Presenter, IClientManagerLi
         if (previousUser != null && view != null) {
             view.fillUsername(previousUser.replace(POSTFIX, ""));
         }
+        mClientManager.loginWithToken();
     }
 
     @Override
@@ -58,29 +59,13 @@ public class LoginPresenter implements LoginContract.Presenter, IClientManagerLi
     }
 
     @Override
-    public void loginWithAccessToken(String user) {
-        LoginContract.View view = mView.get();
-        if (view == null) {
-            return;
-        }
-        if (user == null || user.isEmpty()) {
-            view.usernameInvalid(R.string.error_field_required);
-            return;
-        }
-        view.showProgress(true);
-        if (user.equals(SharedPreferencesHelper.get().getStringFromPrefs(USERNAME))) {
-            mClientManager.loginWithToken();
-        } else {
-            view.showError(R.string.no_valid_token);
-            view.showProgress(false);
-        }
-    }
-
-    @Override
     public void checkIfTokensExist() {
-        LoginContract.View view = mView.get();
-        if (view != null) {
-            view.setTokenViewVisibility(mClientManager.loginTokensExist());
+        if (mClientManager.loginTokensExist()) {
+            mClientManager.loginWithToken();
+            LoginContract.View view = mView.get();
+            if (view != null) {
+                view.showProgress(true);
+            }
         }
     }
 

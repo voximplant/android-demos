@@ -4,7 +4,7 @@
     android:id="@+id/keypad_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/colorBackgroundWhite"
+    android:background="@color/colorPrimary"
     tools:context=".ui.call.CallActivity">
 
     <Button
@@ -19,7 +19,8 @@
         android:textColor="@drawable/button_text_color_selector"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/keypad_hide_button"
-        app:layout_constraintEnd_toStartOf="@+id/keypad_number_sign_button" />
+        app:layout_constraintEnd_toStartOf="@+id/keypad_number_sign_button"
+        tools:ignore="UsingOnClickInXml" />
 
     <Button
         android:id="@+id/keypad_number_sign_button"
@@ -35,7 +36,8 @@
         android:textColor="@drawable/button_text_color_selector"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/keypad_0_button"
-        app:layout_constraintStart_toEndOf="@+id/keypad_0_button" />
+        app:layout_constraintStart_toEndOf="@+id/keypad_0_button"
+        tools:ignore="UsingOnClickInXml" />
 
     <Button
         android:id="@+id/keypad_7_button"
@@ -51,7 +53,8 @@
         android:textColor="@drawable/button_text_color_selector"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/keypad_8_button"
-        app:layout_constraintEnd_toStartOf="@+id/keypad_8_button" />
+        app:layout_constraintEnd_toStartOf="@+id/keypad_8_button"
+        tools:ignore="UsingOnClickInXml" />
 
     <Button
         android:id="@+id/keypad_asterisk_button"
@@ -67,7 +70,8 @@
         android:textColor="@drawable/button_text_color_selector"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/keypad_0_button"
-        app:layout_constraintEnd_toStartOf="@+id/keypad_0_button" />
+        app:layout_constraintEnd_toStartOf="@+id/keypad_0_button"
+        tools:ignore="UsingOnClickInXml" />
 
     <Button
         android:id="@+id/keypad_9_button"
@@ -83,7 +87,8 @@
         android:textColor="@drawable/button_text_color_selector"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/keypad_8_button"
-        app:layout_constraintStart_toEndOf="@+id/keypad_8_button" />
+        app:layout_constraintStart_toEndOf="@+id/keypad_8_button"
+        tools:ignore="UsingOnClickInXml" />
 
     <Button
         android:id="@+id/keypad_5_button"
@@ -99,7 +104,8 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/keypad_8_button"
         app:layout_constraintEnd_toEndOf="@+id/keypad_0_button"
-        app:layout_constraintStart_toStartOf="@+id/keypad_0_button" />
+        app:layout_constraintStart_toStartOf="@+id/keypad_0_button"
+        tools:ignore="UsingOnClickInXml" />
 
     <Button
         android:id="@+id/keypad_4_button"
@@ -115,7 +121,8 @@
         android:textColor="@drawable/button_text_color_selector"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/keypad_5_button"
-        app:layout_constraintEnd_toStartOf="@+id/keypad_5_button" />
+        app:layout_constraintEnd_toStartOf="@+id/keypad_5_button"
+        tools:ignore="UsingOnClickInXml" />
 
     <Button
         android:id="@+id/keypad_6_button"
@@ -131,7 +138,8 @@
         android:textColor="@drawable/button_text_color_selector"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/keypad_5_button"
-        app:layout_constraintStart_toEndOf="@+id/keypad_5_button" />
+        app:layout_constraintStart_toEndOf="@+id/keypad_5_button"
+        tools:ignore="UsingOnClickInXml" />
 
     <Button
         android:id="@+id/keypad_2_button"
@@ -147,7 +155,8 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/keypad_5_button"
         app:layout_constraintEnd_toEndOf="@+id/keypad_0_button"
-        app:layout_constraintStart_toStartOf="@+id/keypad_0_button" />
+        app:layout_constraintStart_toStartOf="@+id/keypad_0_button"
+        tools:ignore="UsingOnClickInXml" />
 
     <Button
         android:id="@+id/keypad_3_button"
@@ -164,7 +173,8 @@
         android:textColor="@drawable/button_text_color_selector"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/keypad_5_button"
-        app:layout_constraintStart_toEndOf="@+id/keypad_2_button" />
+        app:layout_constraintStart_toEndOf="@+id/keypad_2_button"
+        tools:ignore="UsingOnClickInXml" />
 
     <Button
         android:id="@+id/keypad_1_button"
@@ -180,7 +190,8 @@
         android:textColor="@drawable/button_text_color_selector"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/keypad_2_button"
-        app:layout_constraintEnd_toStartOf="@+id/keypad_2_button" />
+        app:layout_constraintEnd_toStartOf="@+id/keypad_2_button"
+        tools:ignore="UsingOnClickInXml" />
 
     <Button
         android:id="@+id/keypad_8_button"
@@ -196,7 +207,8 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/keypad_0_button"
         app:layout_constraintEnd_toEndOf="@+id/keypad_0_button"
-        app:layout_constraintStart_toStartOf="@+id/keypad_0_button" />
+        app:layout_constraintStart_toStartOf="@+id/keypad_0_button"
+        tools:ignore="UsingOnClickInXml" />
 
     <Button
         android:id="@+id/keypad_hide_button"
@@ -206,9 +218,11 @@
         android:fontFamily="@font/roboto"
         android:text="@string/hide"
         android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
         android:onClick="onHideKeypadPressed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/keypad_number_sign_button"
-        app:layout_constraintStart_toStartOf="@+id/keypad_number_sign_button" />
+        app:layout_constraintStart_toStartOf="@+id/keypad_number_sign_button"
+        tools:ignore="UsingOnClickInXml" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

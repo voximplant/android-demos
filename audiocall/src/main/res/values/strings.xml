@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">AudioCall</string>
+    <string name="logo">logo</string>
+    <string name="welcome_label_text">AudioCall Demo</string>
 
     <string name="prompt_login">USER@APP.ACCOUNT</string>
     <string name="prompt_password">PASSWORD</string>
@@ -19,7 +21,8 @@
     <string name="alert_title_logout">Log out</string>
     <string name="alert_content_logout">You are going to log out! Proceed?</string>
     <string name="alert_title_disconnected">Connection error</string>
-    <string name="alert_content_disconnected">Connection to server is lost. Please relogin</string>
+    <string name="alert_content_disconnected">Connection to server is lost. Will re-login on a new call</string>
+    <string name="alert_content_cannot_make_call">Failed to make a call. Cannot connect to the Voximplant Cloud</string>
     <string name="alert_title_connection_failed">Connection failed</string>
     <string name="alert_content_connection_failed">Connection failed, check your internet connection and try again</string>
     <string name="alert_select_audio_device">Audio device</string>
@@ -31,6 +34,7 @@
     <string name="title_activity_main">AudioCall</string>
 
     <string name="log_out">Log out</string>
+    <string name="logout_button">logout button</string>
 
     <string name="hangup_call">Hangup call</string>
     <string name="mute_audio">Mute/unmute audio</string>

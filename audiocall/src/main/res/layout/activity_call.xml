@@ -4,7 +4,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackgroundWhite"
+    android:background="@color/colorPrimary"
     tools:context=".ui.call.CallActivity">
 
     <ImageButton
@@ -15,12 +15,12 @@
         android:layout_marginLeft="24dp"
         android:background="@drawable/button_image_passive"
         android:contentDescription="@string/speaker_on_off"
-        android:tint="@color/colorButton"
         app:layout_constraintStart_toEndOf="@+id/keypad_button"
         app:layout_constraintTop_toTopOf="@+id/keypad_button"
         app:srcCompat="@drawable/ic_hearing_black_40dp"
         tools:layout_conversion_absoluteHeight="0dp"
-        tools:layout_conversion_absoluteWidth="0dp" />
+        tools:layout_conversion_absoluteWidth="0dp"
+        app:tint="@color/colorButton" />
 
     <ImageButton
         android:id="@+id/hangup_button"
@@ -29,14 +29,14 @@
         android:layout_marginBottom="25dp"
         android:background="@drawable/button_image_red_passive"
         android:contentDescription="@string/hangup_call"
-        android:tint="@color/colorRed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_call_end_black_45dp"
         tools:layout_conversion_absoluteHeight="0dp"
-        tools:layout_conversion_absoluteWidth="0dp" />
+        tools:layout_conversion_absoluteWidth="0dp"
+        app:tint="@color/colorRed" />
 
     <ImageButton
         android:id="@+id/mute_audio_button"
@@ -46,12 +46,12 @@
         android:layout_marginRight="24dp"
         android:background="@drawable/button_image_passive"
         android:contentDescription="@string/mute_audio"
-        android:tint="@color/colorButton"
         app:layout_constraintEnd_toStartOf="@+id/keypad_button"
         app:layout_constraintTop_toTopOf="@+id/keypad_button"
         app:srcCompat="@drawable/ic_mic_off_black_40dp"
         tools:layout_conversion_absoluteHeight="0dp"
-        tools:layout_conversion_absoluteWidth="0dp" />
+        tools:layout_conversion_absoluteWidth="0dp"
+        app:tint="@color/colorButton" />
 
     <ImageButton
         android:id="@+id/keypad_button"
@@ -60,12 +60,12 @@
         android:layout_marginBottom="40dp"
         android:background="@drawable/button_image_passive"
         android:contentDescription="@string/mute_audio"
-        android:tint="@color/colorButton"
         app:layout_constraintBottom_toTopOf="@+id/hold_button"
         app:layout_constraintStart_toStartOf="@+id/hold_button"
         app:srcCompat="@drawable/ic_dialpad_black_40dp"
         tools:layout_conversion_absoluteHeight="0dp"
-        tools:layout_conversion_absoluteWidth="0dp" />
+        tools:layout_conversion_absoluteWidth="0dp"
+        app:tint="@color/colorButton" />
 
     <ImageButton
         android:id="@+id/hold_button"
@@ -74,12 +74,12 @@
         android:layout_marginBottom="66dp"
         android:background="@drawable/button_image_passive"
         android:contentDescription="@string/mute_audio"
-        android:tint="@color/colorButton"
         app:layout_constraintBottom_toTopOf="@+id/hangup_button"
         app:layout_constraintStart_toStartOf="@+id/hangup_button"
         app:srcCompat="@drawable/ic_pause_black_40dp"
         tools:layout_conversion_absoluteHeight="0dp"
-        tools:layout_conversion_absoluteWidth="0dp" />
+        tools:layout_conversion_absoluteWidth="0dp"
+        app:tint="@color/colorButton" />
 
     <TextView
         android:id="@+id/caller_name_view"
@@ -96,7 +96,7 @@
         android:lines="1"
         android:minLines="1"
         android:text="@string/outgoing_call"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorWhite"
         android:textSize="40sp"
         app:autoSizeMaxTextSize="40sp"
         app:autoSizeMinTextSize="20sp"
@@ -163,7 +163,7 @@
         android:layout_marginRight="8dp"
         android:fontFamily="@font/roboto"
         android:text="@string/call_connecting"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorWhite"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -179,7 +179,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:fontFamily="@font/roboto"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorWhite"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

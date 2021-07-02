@@ -14,7 +14,6 @@ import android.util.Log;
 import com.voximplant.demos.audiocall.ui.call.CallService;
 import com.voximplant.demos.audiocall.ui.incomingcall.IncomingCallActivity;
 import com.voximplant.demos.audiocall.utils.Constants;
-import com.voximplant.demos.audiocall.utils.ForegroundCheck;
 import com.voximplant.demos.audiocall.utils.NotificationHelper;
 import com.voximplant.sdk.call.CallException;
 import com.voximplant.sdk.call.CallSettings;
@@ -86,7 +85,7 @@ public class VoxCallManager implements IClientIncomingCallListener, ICallListene
         incomingCallIntent.putExtra(DISPLAY_NAME, displayName);
         incomingCallIntent.setFlags(FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TOP);
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !ForegroundCheck.get().isForeground()) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             mAppContext.registerReceiver(mCallActionsReceiver, new IntentFilter(ACTION_DECLINE_CALL));
             NotificationHelper.showCallNotification(mAppContext, incomingCallIntent, displayName);
         } else {

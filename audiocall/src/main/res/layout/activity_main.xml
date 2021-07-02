@@ -5,25 +5,28 @@
     android:id="@+id/main_screen_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackgroundWhite"
+    android:background="@color/colorPrimary"
     android:gravity="center_horizontal"
     tools:context=".ui.main.MainActivity">
 
 
-    <ImageButton
-        android:id="@+id/button_audio_call"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/start_call_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_weight="1"
-        android:background="@drawable/button_image_passive"
-        android:contentDescription="@string/action_call"
-        android:tint="@color/colorButton"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/button_primary"
+        android:fontFamily="@font/roboto"
+        android:text="@string/action_call"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout2"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
-        app:srcCompat="@drawable/ic_phone_black_40dp" />
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout2"
@@ -31,24 +34,24 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/call_to"
-            android:fontFamily="@font/roboto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
             android:hint="@string/prompt_call_to"
             android:importantForAutofill="no"
             android:inputType="text"
             android:maxLines="1"
             android:singleLine="true"
-            android:textColor="@color/colorButton" />
+            android:textColor="@color/colorWhite" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,10 +63,40 @@
         android:layout_marginLeft="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="30dp"
         android:fontFamily="@font/roboto"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="23sp"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/logout_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:background="#00FFFFFF"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logout_icon"
+        android:contentDescription="@string/logout_button"
+        app:tint="#CCFFFFFF" />
+
+    <ImageButton
+        android:id="@+id/share_log_main"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="#00FFFFFF"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_share_40"
+        android:layout_marginRight="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

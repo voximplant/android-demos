@@ -13,9 +13,11 @@ import java.lang.ref.WeakReference;
 
 public class MainPresenter implements MainContract.Presenter, IClientManagerListener {
 
-    private WeakReference<MainContract.View> mView;
-    private VoxClientManager mClientManager = Shared.getInstance().getClientManager();
-    private VoxCallManager mCallManager = Shared.getInstance().getCallManager();
+    private final WeakReference<MainContract.View> mView;
+    private final VoxClientManager mClientManager = Shared.getInstance().getClientManager();
+    private final VoxCallManager mCallManager = Shared.getInstance().getCallManager();
+    private boolean mWaitingForLogout;
+    private String mUserToCall;
 
     MainPresenter(MainContract.View view) {
         mView = new WeakReference<>(view);
@@ -35,7 +37,13 @@ public class MainPresenter implements MainContract.Presenter, IClientManagerList
     public void onConnectionClosed() {
         MainContract.View view = mView.get();
         if (view != null) {
-            view.notifyConnectionClosed();
+            if (mWaitingForLogout) {
+                mWaitingForLogout = false;
+                mClientManager.removeListener(this);
+                view.notifyLogoutCompleted();
+            } else {
+                view.notifyConnectionClosed();
+            }
         }
     }
 
@@ -49,15 +57,34 @@ public class MainPresenter implements MainContract.Presenter, IClientManagerList
             view.notifyInvalidCallUser();
             return;
         }
-        if (mCallManager.createCall(user)) {
+        if (mClientManager.getDisplayName() == null) {
+            mClientManager.loginWithToken();
+            mUserToCall = user;
+
+        } else if (mCallManager.createCall(user)) {
+            mUserToCall = null;
             view.startCallActivity(user, false);
         }
     }
 
-
     @Override
     public void logout() {
-        mClientManager.removeListener(this);
         mClientManager.logout();
+        mWaitingForLogout = true;
+    }
+
+    @Override
+    public void onLoginSuccess(String displayName) {
+        if (mUserToCall != null) {
+            makeCall(mUserToCall);
+        }
+    }
+
+    @Override
+    public void onConnectionFailed() {
+        MainContract.View view = mView.get();
+        if (view != null) {
+            view.notifyCannotMakeCall();
+        }
     }
 }

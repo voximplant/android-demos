@@ -20,16 +20,12 @@ public interface LoginContract {
 
         void passwordInvalid(int error);
 
-        void setTokenViewVisibility(boolean visible);
-
         void showError(int error);
     }
 
     interface Presenter extends BasePresenter {
 
         void loginWithPassword(String user, String password);
-
-        void loginWithAccessToken(String user);
 
         void checkIfTokensExist();
 
