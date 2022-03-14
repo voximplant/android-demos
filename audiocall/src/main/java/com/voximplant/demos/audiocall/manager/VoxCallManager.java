@@ -146,6 +146,17 @@ public class VoxCallManager implements IClientIncomingCallListener, ICallListene
         NotificationHelper.cancelNotification();
         removeCall();
     }
+
+    @Override
+    public void onCallReconnecting(ICall call) {
+        Log.d(APP_TAG, "VoxCallManager: onCallReconnecting");
+    }
+
+    @Override
+    public void onCallReconnected(ICall call) {
+        Log.d(APP_TAG, "VoxCallManager: onCallReconnected");
+    }
+
     //endregion
 
     //endregion
