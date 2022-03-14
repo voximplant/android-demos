@@ -22,7 +22,6 @@ import com.voximplant.sdk.call.ICallListener;
 import com.voximplant.sdk.call.VideoFlags;
 import com.voximplant.sdk.client.IClient;
 import com.voximplant.sdk.client.IClientIncomingCallListener;
-import com.voximplant.sdk.internal.Logger;
 
 import java.util.Map;
 
