@@ -22,6 +22,7 @@ import com.voximplant.sdk.call.ICallListener;
 import com.voximplant.sdk.call.VideoFlags;
 import com.voximplant.sdk.client.IClient;
 import com.voximplant.sdk.client.IClientIncomingCallListener;
+import com.voximplant.sdk.internal.Logger;
 
 import java.util.Map;
 
@@ -146,6 +147,17 @@ public class VoxCallManager implements IClientIncomingCallListener, ICallListene
         NotificationHelper.cancelNotification();
         removeCall();
     }
+
+    @Override
+    public void onCallReconnecting(ICall call) {
+        Log.d(APP_TAG, "VoxCallManager: onCallReconnecting");
+    }
+
+    @Override
+    public void onCallReconnected(ICall call) {
+        Log.d(APP_TAG, "VoxCallManager: onCallReconnected");
+    }
+
     //endregion
 
     //endregion

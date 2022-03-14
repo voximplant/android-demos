@@ -159,6 +159,16 @@ public class VoxCallManager implements IClientIncomingCallListener, ICallListene
     }
 
     @Override
+    public void onCallReconnecting(ICall call) {
+        Log.d(APP_TAG, "VoxCallManager: onCallReconnecting");
+    }
+
+    @Override
+    public void onCallReconnected(ICall call) {
+        Log.d(APP_TAG, "VoxCallManager: onCallReconnected");
+    }
+
+    @Override
     public void onCallAudioStarted(ICall call) {
         for (ICallEventsListener listener : mCallEventsListeners) {
             listener.onCallAudioStarted();

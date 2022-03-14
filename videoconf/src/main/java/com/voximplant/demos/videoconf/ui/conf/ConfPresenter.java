@@ -191,6 +191,16 @@ public class ConfPresenter implements ConfContract.Presenter, ICallListener, IEn
     }
 
     @Override
+    public void onCallReconnecting(ICall call) {
+        Log.d(APP_TAG, "onCallReconnecting");
+    }
+
+    @Override
+    public void onCallReconnected(ICall call) {
+        Log.d(APP_TAG, "onCallReconnected");
+    }
+
+    @Override
     public void onLocalVideoStreamAdded(ICall call, ILocalVideoStream videoStream) {
         Log.i(APP_TAG, "onLocalVideoStreamAdded: " + call.getCallId());
         ConfContract.View view = mView.get();
