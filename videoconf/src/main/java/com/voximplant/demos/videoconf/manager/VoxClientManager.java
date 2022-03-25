@@ -45,21 +45,7 @@ public class VoxClientManager implements IClientSessionListener, IClientLoginLis
     }
 
     public void loginUser(String meetingId, String username) {
-        mDisplayName = username;
-        mNetworkManager.requestLoginCredentials(meetingId, username, new NetworkManager.ICredentialsRequestResult() {
-            @Override
-            public void onSuccess(String login, String password) {
-                login(login + VOX_ACCOUNT, password);
-            }
-
-            @Override
-            public void onFailure() {
-                Log.e(APP_TAG, "VoxClientManager: failed to get login credentials");
-                if (mListener != null) {
-                    mListener.onConnectionClosed();
-                }
-            }
-        });
+        login("testUser1" + VOX_ACCOUNT, "uPass1");
     }
 
     public void disconnect() {
@@ -90,7 +76,7 @@ public class VoxClientManager implements IClientSessionListener, IClientLoginLis
         CallSettings callSettings = new CallSettings();
         callSettings.videoFlags = new VideoFlags(true, true);
         callSettings.preferredVideoCodec = VideoCodec.VP8;
-        return mClient.callConference(MEETING_PREFIX + meetingId, callSettings);
+        return mClient.callConference(meetingId, callSettings);
     }
 
     @Override

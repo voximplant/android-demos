@@ -6,7 +6,7 @@ package com.voximplant.demos.videoconf;
 
 public class Constants {
     public static final String APP_TAG = "Conf";
-    public static final String VOX_ACCOUNT = "@conf.demovideoconf.voximplant.com";
+    public static final String VOX_ACCOUNT = "@app1.oyakovlev.voximplant.com";
     public static final String MEETING_ID = "meetingId";
     public static final String USERNAME = "username";
     public static final String MEETING_PREFIX = "conf_";

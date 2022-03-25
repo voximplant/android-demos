@@ -76,7 +76,7 @@ public class ConfPresenter implements ConfContract.Presenter, ICallListener, IEn
         if (!audioDevices.contains(AudioDevice.BLUETOOTH) && !audioDevices.contains(AudioDevice.WIRED_HEADSET)) {
             mAudioDeviceManager.selectAudioDevice(AudioDevice.SPEAKER);
         }
-        mConferenceCall = mClientManager.createConferenceCall(mMeetingId);
+        mConferenceCall = mClientManager.createConferenceCall("myconf3");
         if (mConferenceCall != null) {
             try {
                 mConferenceCall.addCallListener(this);

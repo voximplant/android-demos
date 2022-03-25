@@ -9,10 +9,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelectionParameters;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.StyledPlayerView;
+import com.google.android.exoplayer2.util.EventLogger;
 import com.voximplant.demos.videoconf.Constants;
 import com.voximplant.demos.videoconf.R;
 import com.voximplant.demos.videoconf.ui.start.StartConfActivity;
@@ -21,6 +29,7 @@ import com.voximplant.sdk.hardware.AudioDevice;
 
 import java.util.List;
 
+import static com.voximplant.demos.videoconf.Constants.APP_TAG;
 import static com.voximplant.demos.videoconf.Constants.MEETING_ID;
 
 public class ConfActivity extends AppCompatActivity implements ConfContract.View {
@@ -66,6 +75,24 @@ public class ConfActivity extends AppCompatActivity implements ConfContract.View
         switchCameraButton.setOnClickListener(view -> mPresenter.switchCamera());
 
         mPresenter.start();
+
+        mPresenter.muteAudio();
+
+        startExo();
+    }
+
+    public void startExo() {
+        StyledPlayerView exoPlayerView = findViewById(R.id.exo_player);
+        DefaultTrackSelector.Parameters parameters = new DefaultTrackSelector.ParametersBuilder(this).setMaxVideoSizeSd().build();
+        DefaultTrackSelector defaultTrackSelector = new DefaultTrackSelector(this);
+        defaultTrackSelector.setParameters(parameters);
+        SimpleExoPlayer player = new SimpleExoPlayer.Builder(this).setTrackSelector(defaultTrackSelector).build();
+
+        exoPlayerView.setPlayer(player);
+        MediaItem mediaItem = MediaItem.fromUri("https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8");
+        player.setMediaItem(mediaItem);
+        player.prepare();
+        player.play();
     }
 
     @Override

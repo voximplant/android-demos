@@ -11,7 +11,7 @@
         android:id="@+id/video_views"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/send_audio_button"
+        app:layout_constraintBottom_toTopOf="@+id/exo_player"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/send_audio_button"
         app:layout_constraintTop_toTopOf="parent" />
@@ -75,6 +75,17 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/send_video_button"
         app:srcCompat="@drawable/ic_exit" />
+
+    <com.google.android.exoplayer2.ui.StyledPlayerView
+        android:id="@+id/exo_player"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/switch_camera_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/video_views">
+
+    </com.google.android.exoplayer2.ui.StyledPlayerView>
 
     <!--    <LinearLayout-->
     <!--        android:id="@+id/call_controls"-->

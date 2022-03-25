@@ -6,6 +6,8 @@ package com.voximplant.demos.videoconf;
 
 import android.app.Application;
 
+import androidx.multidex.MultiDexApplication;
+
 import com.voximplant.demos.videoconf.manager.VoxClientManager;
 import com.voximplant.sdk.Voximplant;
 import com.voximplant.sdk.client.ClientConfig;
@@ -13,7 +15,7 @@ import com.voximplant.sdk.client.IClient;
 
 import java.util.concurrent.Executors;
 
-public class App extends Application {
+public class App extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();

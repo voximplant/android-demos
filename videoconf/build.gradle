@@ -7,6 +7,7 @@ android {
         applicationId "com.voximplant.demos.videoconf"
         minSdkVersion 19
         targetSdkVersion 30
+        multiDexEnabled true
         versionCode 4
         versionName "1.3"
 
@@ -38,6 +39,9 @@ dependencies {
     implementation "androidx.vectordrawable:vectordrawable:${versions.vectordrawable}"
 
     implementation "com.voximplant:voximplant-sdk:${versions.voximplant}"
+
+    implementation "androidx.multidex:multidex:2.0.1"
+    implementation "com.google.android.exoplayer:exoplayer:2.15.0"
 
     testImplementation "junit:junit:${versions.junit}"
     androidTestImplementation "androidx.test:runner:${versions.testRunner}"
